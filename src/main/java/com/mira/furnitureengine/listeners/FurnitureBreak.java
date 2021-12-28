@@ -61,7 +61,8 @@ public class FurnitureBreak implements Listener {
                 RegionContainer container = WorldGuard.getInstance().getPlatform().getRegionContainer();
                 RegionQuery query = container.createQuery();
                 
-                if (clicked.getType().equals(Material.BARRIER) && (player.hasPermission("furnitureengine.blockbreak") || main.getConfig().getBoolean("Options.check-place-permissions") == false) && (query.testState(BukkitAdapter.adapt(location), localPlayer, Flags.BLOCK_BREAK) || player.hasPermission("furnitureengine.admin"))) {
+                if (clicked.getType().equals(Material.BARRIER) && (player.hasPermission("furnitureengine.blockbreak") || main.getConfig().getBoolean("Options.check-place-permissions") == false) && (query.testState(BukkitAdapter.adapt(location), localPlayer, Flags.BUILD) || player.hasPermission("furnitureengine.admin"))) {
+
                     BreakBlock(clicked, player);
                 }
             } else
@@ -88,7 +89,7 @@ public class FurnitureBreak implements Listener {
                                 	breakTest=false;
                                 	if(Bukkit.getServer().getPluginManager().getPlugin("PlotSquared")!=null) {
                                 		com.plotsquared.core.location.Location loc = com.plotsquared.core.location.Location.at(clicked.getLocation().getWorld().getName(), clicked.getLocation().getBlockX(), clicked.getLocation().getBlockY(), clicked.getLocation().getBlockZ());
-                                		
+
                                 		Plot plot = Plot.getPlot(loc);
                                 		
                                 		for(String text: main.getConfig().getStringList("plot-worlds")) {
@@ -153,7 +154,7 @@ public class FurnitureBreak implements Listener {
                                 RegionContainer container = WorldGuard.getInstance().getPlatform().getRegionContainer();
                                 RegionQuery query = container.createQuery();
 
-                                if ((player.hasPermission("furnitureengine.blockbreak") || main.getConfig().getBoolean("Options.check-place-permissions") == false) && (query.testBuild(BukkitAdapter.adapt(location), localPlayer, Flags.BLOCK_BREAK) || player.hasPermission("furnitureengine.admin"))) {
+                                if ((player.hasPermission("furnitureengine.blockbreak") || main.getConfig().getBoolean("Options.check-place-permissions") == false) && (query.testBuild(BukkitAdapter.adapt(location), localPlayer, Flags.BUILD) || player.hasPermission("furnitureengine.admin"))) {
                                 	PickUpProp(frame, player, key);
                                 }
                             } else
