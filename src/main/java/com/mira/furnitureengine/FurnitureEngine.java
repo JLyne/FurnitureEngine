@@ -8,13 +8,11 @@ import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import com.mira.furnitureengine.commands.*;
 import com.mira.furnitureengine.listeners.*;
 
-import org.bukkit.ChatColor;
-
 @SuppressWarnings("unused")
 public final class FurnitureEngine extends JavaPlugin {
 	// WorldGuard Support
 	public WorldGuardPlugin wg;
-	
+
 	// Update Checker
 	public boolean versionChecked = false;
 	public String versionOld = "";
@@ -24,17 +22,17 @@ public final class FurnitureEngine extends JavaPlugin {
 		getLogger().info(ChatColor.GOLD + "Furniture" + ChatColor.YELLOW + "Engine" + ChatColor.DARK_GRAY + " � " + ChatColor.GRAY + "Furniture Engine enabled!");
 		
 		loadConfig();
-		
+
 		wg = getWorldGuard();
-		
+
 		// default
 		getCommand("furnitureengine").setExecutor(new CoreCommand());
-		 getCommand("furnitureengine").setTabCompleter(new CommandTabCompleter());
-		  
-		  // Event Handlers
-		 new RightClick(this);
-		 new FurniturePlace(this);
-		 new FurnitureBreak(this);
+		getCommand("furnitureengine").setTabCompleter(new CommandTabCompleter());
+
+		// Event Handlers
+		new RightClick(this);
+		new FurniturePlace(this);
+		new FurnitureBreak(this);
 	}
 	
 	public void onDisable() {
@@ -45,9 +43,9 @@ public final class FurnitureEngine extends JavaPlugin {
 		getConfig().options().copyDefaults(true);
 		saveConfig();
 	}
-	
+
 	private WorldGuardPlugin getWorldGuard() {
-	    Plugin plugin = getServer().getPluginManager().getPlugin("WorldGuard");
+		Plugin plugin = getServer().getPluginManager().getPlugin("WorldGuard");
 
 	    // WorldGuard may not be loaded
 	    if (!(plugin instanceof WorldGuardPlugin)) {
@@ -55,6 +53,6 @@ public final class FurnitureEngine extends JavaPlugin {
 	        return null; // Maybe you want throw an exception instead
 	    }
 
-	    return (WorldGuardPlugin) plugin;
+		return (WorldGuardPlugin) plugin;
 	}
 }

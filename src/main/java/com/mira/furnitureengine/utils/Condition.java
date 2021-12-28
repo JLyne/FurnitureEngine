@@ -10,17 +10,17 @@ import com.mira.furnitureengine.conditions.*;
 public class Condition {
 	static FurnitureEngine main = FurnitureEngine.getPlugin(FurnitureEngine.class);
 	public static boolean isOk;
-	
+
 	public static boolean checkForCondition(Player player, String type, String id) {
 		isOk = true;
 		List<String> condList = main.getConfig().getStringList("Furniture." + id + ".conditions");
-		
-		for(String text : condList) {
-			if(text.endsWith(type)) {
-				if(isOk) {
+
+		for (String text : condList) {
+			if (text.endsWith(type)) {
+				if (isOk) {
 					String prefix = text.substring(0, text.lastIndexOf("{"));
 					String input = getText(text);
-					switch(prefix.toLowerCase()) {
+					switch (prefix.toLowerCase()) {
 						case "biome" -> isOk = ConditionBiome.check(isOk, player, input);
 						case "world" -> isOk = ConditionWorld.check(isOk, player, input);
 						case "permission" -> isOk = ConditionPermission.check(isOk, player, input);
@@ -30,14 +30,15 @@ public class Condition {
 				} else return false;
 			}
 		}
-		return isOk;	
+
+		return isOk;
 	}
-	
+
 	public static String getText(String input) {
 		int s = input.indexOf("{") + 1;
 		int e = input.lastIndexOf("}");
 		if (s > 0 && e > s) {
-		    return(input.substring(s, e));
+			return (input.substring(s, e));
 		}
 		return null;
 	}

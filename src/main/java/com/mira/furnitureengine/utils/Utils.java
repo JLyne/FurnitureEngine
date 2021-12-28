@@ -17,8 +17,10 @@ public class Utils {
 	public static String checkForFurniture(Location location) {
 		furnitureTest = null;
 		Block block = location.getBlock();
+
 		if(block.getType()==Material.BARRIER) {
 			List<Entity> nearbyEntites = (List<Entity>) block.getWorld().getNearbyEntities(block.getLocation().add(0, 1, 0), 0.13, 0.2, 0.13);
+
 			for (Entity nearbyEntity : nearbyEntites) {
                 if (nearbyEntity instanceof ItemFrame frame) {
 					if(frame.getItem().getType()==Material.OAK_PLANKS) {
@@ -29,6 +31,7 @@ public class Utils {
                     			}
                     		}
             			});
+
                     	if(furnitureTest!=null) {
                     		return furnitureTest;
                     	} else return null;
@@ -36,6 +39,7 @@ public class Utils {
                 }
 			}
 		}
+
 		return null;
 	}
 	

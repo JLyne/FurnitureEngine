@@ -21,82 +21,84 @@ public class ItemUtils {
 	public static String id;
 	public static boolean test;
 	static FurnitureEngine main = FurnitureEngine.getPlugin(FurnitureEngine.class);
-	
+
 	static ItemStack setItemMaterial(String id, int amount) {
-		ItemStack item = new ItemStack(Material.AIR ,amount);
-		if(main.getConfig().getString("Furniture." + id + ".item")!=null) {
+		ItemStack item = new ItemStack(Material.AIR, amount);
+
+		if (main.getConfig().getString("Furniture." + id + ".item") != null) {
 			item.setType(Material.matchMaterial(main.getConfig().getString("Furniture." + id + ".item")));
 		} else {
 			// sets material to legacy material in case it fails
 			item.setType(Material.OAK_PLANKS);
 		}
+
 		return item;
 	}
-	
-	public static void giveItem(Player player,String id,int amount, Location loc) {
-		if(loc==null) {
+
+	public static void giveItem(Player player, String id, int amount, Location loc) {
+		if (loc == null) {
 			// if no location is provided it will default to player location
 			loc = player.getLocation();
 		}
 
 		ItemStack item = setHandItem(id, amount);
-		
-		if(player==null) {
+
+		if (player == null) {
 			dropItem(item, loc);
 			return;
 		}
-		if(!player.getInventory().addItem(item).isEmpty()) {
+
+		if (!player.getInventory().addItem(item).isEmpty()) {
 			dropItem(item, loc);
 		}
 	}
-	
+
 	public static void dropItem(ItemStack item, Location loc) {
 		loc.getWorld().dropItem(loc, item);
 	}
-	
+
 	public static ItemStack setHandItem(String id, int amount) {
-		
 		// Creates item
 		ItemStack item = setItemMaterial(id, amount);
 		// Sets item meta (display, lore, model data)
 		ItemMeta meta = item.getItemMeta();
-				
+
 		// Display Name
 		String display = main.getConfig().getString("Furniture." + id + ".display");
-		display = setGradient(translateHexColorCodes("&#","",ChatColor.translateAlternateColorCodes('&', display)));
+		display = setGradient(translateHexColorCodes("&#", "", ChatColor.translateAlternateColorCodes('&', display)));
 		meta.setDisplayName(display);
-				
+
 		// Custom Model Data
 		meta.setCustomModelData(main.getConfig().getInt("Furniture." + id + ".custommodeldata"));
-				
+
 		// Lore (Optional check)
-		
-		if(!main.getConfig().getStringList("Furniture." + id + ".lore").isEmpty()) {
+
+		if (!main.getConfig().getStringList("Furniture." + id + ".lore").isEmpty()) {
 			ArrayList<String> loresList = new ArrayList<>();
-			for(String text : main.getConfig().getStringList("Furniture." + id + ".lore")) {
-				loresList.add(translateHexColorCodes("&#","",ChatColor.translateAlternateColorCodes('&', text)));
+			for (String text : main.getConfig().getStringList("Furniture." + id + ".lore")) {
+				loresList.add(translateHexColorCodes("&#", "", ChatColor.translateAlternateColorCodes('&', text)));
 			}
 			meta.setLore(loresList);
 		}
-				
+
 		item.setItemMeta(meta);
-		
+
 		return item;
 	}
-	
+
 	public static ItemStack setFrameItemByDisplay(String display) {
-		
 		main.getConfig().getConfigurationSection("Furniture").getKeys(false).forEach(key -> {
-			if(main.getConfig().getString("Furniture." + key + ".display").equals(display)){
-				id=key;
-		}
+			if (main.getConfig().getString("Furniture." + key + ".display").equals(display)) {
+				id = key;
+			}
 		});
-		if(id==null) return null;
-		
+
+		if (id == null) return null;
+
 		id = null;
 		return setFrameItem(id);
 	}
-	
+
 	public static ItemStack setFrameItem(String id) {
 		ItemStack item = setItemMaterial(id, 1);
 		ItemMeta meta = item.getItemMeta();
@@ -104,83 +106,89 @@ public class ItemUtils {
 		item.setItemMeta(meta);
 		return item;
 	}
-	
+
 	public static boolean checkForFurniture(ItemStack item) {
 		ItemMeta meta = item.getItemMeta();
 		main.getConfig().getConfigurationSection("Furniture").getKeys(false).forEach(key -> {
-			if(main.getConfig().getString("Furniture." + key + ".display").equals(meta.getDisplayName())){
-				test=true;
-		}
+			if (main.getConfig().getString("Furniture." + key + ".display").equals(meta.getDisplayName())) {
+				test = true;
+			}
 		});
-		if(test) {
+
+		if (test) {
 			test = false;
 			return true;
 		}
+
 		return false;
 	}
-	
+
 	// colors
-	
+
 	public final static char COLOR_CHAR = ChatColor.COLOR_CHAR;
-	
-	public static String translateHexColorCodes(String startTag, String endTag, String message)
-    {
-        final Pattern hexPattern = Pattern.compile(startTag + "([A-Fa-f0-9]{6})" + endTag);
-        Matcher matcher = hexPattern.matcher(message);
-        StringBuilder buffer = new StringBuilder(message.length() + 4 * 8);
-        while (matcher.find())
-        {
-            String group = matcher.group(1);
-            matcher.appendReplacement(buffer, COLOR_CHAR + "x"
-                    + COLOR_CHAR + group.charAt(0) + COLOR_CHAR + group.charAt(1)
-                    + COLOR_CHAR + group.charAt(2) + COLOR_CHAR + group.charAt(3)
-                    + COLOR_CHAR + group.charAt(4) + COLOR_CHAR + group.charAt(5)
-                    );
-        }
-        return matcher.appendTail(buffer).toString();
-    }
-	
+
+	public static String translateHexColorCodes(String startTag, String endTag, String message) {
+		final Pattern hexPattern = Pattern.compile(startTag + "([A-Fa-f0-9]{6})" + endTag);
+		Matcher matcher = hexPattern.matcher(message);
+		StringBuilder buffer = new StringBuilder(message.length() + 4 * 8);
+
+		while (matcher.find()) {
+			String group = matcher.group(1);
+			matcher.appendReplacement(buffer, COLOR_CHAR + "x"
+					+ COLOR_CHAR + group.charAt(0) + COLOR_CHAR + group.charAt(1)
+					+ COLOR_CHAR + group.charAt(2) + COLOR_CHAR + group.charAt(3)
+					+ COLOR_CHAR + group.charAt(4) + COLOR_CHAR + group.charAt(5)
+			);
+		}
+
+		return matcher.appendTail(buffer).toString();
+	}
+
 	// gradient
-	
+
 	//<#RRGGBB>Text</#RRGGBB>
-   
-    public static String setGradient(String s) {
-    	String text = s;
-    	Matcher m = gradient.matcher(text);
-    	while(m.find()) {
-    		String format = m.group();
-    		TextColor start = new TextColor(format.substring(2, 8));
-    		String message = format.substring(9, format.length() - 10);
-    		TextColor end = new TextColor(format.substring(format.length() - 7, format.length() - 1));
-    		String applied = asGradient(start, message, end);
-    		text = text.replace(format, applied);
-    		
-    	}
-    	return translateHexColorCodes("#", "", text);
-    }
-	
-    private static String asGradient(TextColor start, String text, TextColor end) {
-    	StringBuilder sb = new StringBuilder();
-    	int length = text.length();  
-    	String[] textArray = text.split("\\s+");
-    	float f;
-    	int i = 1;
-    	for(String word : textArray) {
-    		f = (float) (end.red - start.red);
-    		int red = Math.round((start.red + f / (length - 1) * i));
-    		f = (float) (end.green - start.green);
-    		int green = Math.round((start.green + f / (length - 1) * i));
-    		f = (float) (end.blue - start.blue);
-    		int blue = Math.round((start.blue + f / (length - 1) * i));
-    		sb.append("#").append(toHexString(red, green, blue)).append(word);
-    		i++;
-    	}
-    	return sb.toString();
-    }
-    
-    private static String toHexString(int red, int green, int blue) {
-    	String s = Integer.toHexString((red >> 16) + (green >> 8) + blue);
-    	while (s.length() < 6) s = "0$s";
-    	return s;
-    }
+
+	public static String setGradient(String s) {
+		String text = s;
+		Matcher m = gradient.matcher(text);
+
+		while (m.find()) {
+			String format = m.group();
+			TextColor start = new TextColor(format.substring(2, 8));
+			String message = format.substring(9, format.length() - 10);
+			TextColor end = new TextColor(format.substring(format.length() - 7, format.length() - 1));
+			String applied = asGradient(start, message, end);
+			text = text.replace(format, applied);
+
+		}
+
+		return translateHexColorCodes("#", "", text);
+	}
+
+	private static String asGradient(TextColor start, String text, TextColor end) {
+		StringBuilder sb = new StringBuilder();
+		int length = text.length();
+		String[] textArray = text.split("\\s+");
+		float f;
+		int i = 1;
+
+		for (String word : textArray) {
+			f = (float) (end.red - start.red);
+			int red = Math.round((start.red + f / (length - 1) * i));
+			f = (float) (end.green - start.green);
+			int green = Math.round((start.green + f / (length - 1) * i));
+			f = (float) (end.blue - start.blue);
+			int blue = Math.round((start.blue + f / (length - 1) * i));
+			sb.append("#").append(toHexString(red, green, blue)).append(word);
+			i++;
+		}
+
+		return sb.toString();
+	}
+
+	private static String toHexString(int red, int green, int blue) {
+		String s = Integer.toHexString((red >> 16) + (green >> 8) + blue);
+		while (s.length() < 6) s = "0$s";
+		return s;
+	}
 }

@@ -24,17 +24,20 @@ import org.jetbrains.annotations.NotNull;
 public class CoreCommand implements CommandExecutor {
 	FurnitureEngine main = FurnitureEngine.getPlugin(FurnitureEngine.class);
 
-	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
+	public boolean onCommand(
+			@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
 
 		if (args.length == 0) {
 			sender.sendMessage(
 					ChatColor.GOLD + "Furniture" + ChatColor.YELLOW + "Engine" + ChatColor.DARK_GRAY + " � " + ChatColor.RED + "Incorrect Command usage!");
 			return false;
 		}
+
 		if (args[0].equals("reload")) {
 			this.reloadCommand(sender);
 			return true;
 		}
+
 		if (args[0].equals("give")) {
 			if (args.length == 1) {
 				sender.sendMessage(
@@ -48,11 +51,11 @@ public class CoreCommand implements CommandExecutor {
 						} else ItemUtils.giveItem(Bukkit.getPlayer(args[1]), key, 1, null);
 					}
 				});
-
 			}
 
 			return true;
 		}
+
 		if (args[0].equals("get")) {
 			if (args.length == 1) {
 				sender.sendMessage(
@@ -72,6 +75,7 @@ public class CoreCommand implements CommandExecutor {
 
 			return true;
 		}
+
 		if (args[0].equals("remove")) {
 			if (sender instanceof Player p) {
 				if (args.length < 4) {
@@ -103,6 +107,7 @@ public class CoreCommand implements CommandExecutor {
 		Block block = blockLocation.getBlock();
 		FurnitureBreakEvent event = new FurnitureBreakEvent(null, blockLocation);
 		Bukkit.getServer().getPluginManager().callEvent(event);
+
 		if (!event.isCancelled()) {
 			if (block.getType() == Material.BARRIER) {
 				List<Entity> nearbyEntites = (List<Entity>) block.getWorld().getNearbyEntities(
@@ -119,8 +124,6 @@ public class CoreCommand implements CommandExecutor {
 										Location loc = block.getLocation();
 
 										block.getWorld().playSound(loc, Sound.BLOCK_WOOD_BREAK, 3, 1);
-
-
 									}
 								}
 							});

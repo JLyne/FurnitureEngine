@@ -4,11 +4,11 @@ import org.bukkit.entity.Player;
 
 public class ConditionTime {
 	public static boolean check(boolean org, Player player, String input) {
-		input = input.replace("t=","");
-		
+		input = input.replace("t=", "");
+
 		long time = player.getLocation().getWorld().getTime();
 
-		switch(input) {
+		switch (input) {
 			case "day" -> {
 				if (time >= 0L && time <= 12000L) {
 					return org;

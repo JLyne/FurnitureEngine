@@ -4,9 +4,9 @@ import org.bukkit.entity.Player;
 
 public class ConditionPermission {
 	public static boolean check(boolean org, Player player, String input) {
-		input = input.replace("w=","");
-		
-		if(player.hasPermission(input)) {
+		input = input.replace("w=", "");
+
+		if (player.hasPermission(input)) {
 			return org;
 		}
 
