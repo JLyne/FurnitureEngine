@@ -7,7 +7,6 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
-import org.bukkit.craftbukkit.libs.jline.internal.Nullable;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.ItemFrame;
 import org.bukkit.entity.Player;
@@ -25,8 +24,10 @@ import com.mira.furnitureengine.FurnitureEngine;
 import com.mira.furnitureengine.api.events.FurnitureInteractEvent;
 import com.mira.furnitureengine.utils.ListenerUtils;
 
-import dev.geco.gsit.api.GSitAPI;
+//import dev.geco.gsit.api.GSitAPI;
 import net.md_5.bungee.api.ChatColor;
+
+import javax.annotation.Nullable;
 
 public class RightClick implements Listener {
 	static FurnitureEngine main = FurnitureEngine.getPlugin(FurnitureEngine.class);
@@ -94,17 +95,17 @@ public class RightClick implements Listener {
 		Bukkit.getServer().getPluginManager().callEvent(event);
 		if(!event.isCancelled()) {
 		// Sitting
-		if(main.getConfig().getBoolean("Furniture." + key+".chair.enabled")==true) {
-			if(Bukkit.getServer().getPluginManager().getPlugin("GSit")!=null) {
-			
-				Double yoffset = main.getConfig().getDouble("Furniture." + key+".chair.yoffset");
-				Location SeatLocation = new Location(frame.getLocation().getBlock().getLocation().getWorld(), frame.getLocation().getBlock().getLocation().getX(),frame.getLocation().getBlock().getLocation().getY()-1,frame.getLocation().getBlock().getLocation().getZ());
-				if(GSitAPI.getSeats(SeatLocation.getBlock()).size()==0&&GSitAPI.canPlayerSit(player)) {
-					GSitAPI.createSeat(SeatLocation.getBlock(),player, true, 0, -0.4 + yoffset, 0, 0f, true);
-				}
-			} else Bukkit.getLogger().info(ChatColor.GOLD + "Furniture" + ChatColor.YELLOW + "Engine" + ChatColor.DARK_GRAY + " � " + ChatColor.RED + "GSit not installed! Sitting failed!");
-			return;
-		}
+//		if(main.getConfig().getBoolean("Furniture." + key+".chair.enabled")==true) {
+//			if(Bukkit.getServer().getPluginManager().getPlugin("GSit")!=null) {
+//
+//				Double yoffset = main.getConfig().getDouble("Furniture." + key+".chair.yoffset");
+//				Location SeatLocation = new Location(frame.getLocation().getBlock().getLocation().getWorld(), frame.getLocation().getBlock().getLocation().getX(),frame.getLocation().getBlock().getLocation().getY()-1,frame.getLocation().getBlock().getLocation().getZ());
+//				if(GSitAPI.getSeats(SeatLocation.getBlock()).size()==0&&GSitAPI.canPlayerSit(player)) {
+//					GSitAPI.createSeat(SeatLocation.getBlock(),player, true, 0, -0.4 + yoffset, 0, 0f, true);
+//				}
+//			} else Bukkit.getLogger().info(ChatColor.GOLD + "Furniture" + ChatColor.YELLOW + "Engine" + ChatColor.DARK_GRAY + " � " + ChatColor.RED + "GSit not installed! Sitting failed!");
+//			return;
+//		}
 		// Commands Executer
 		fnLocation = frame.getLocation().getBlock().getLocation().add(0,-1,0);
 		ListenerUtils.executeCommand("right-click", player, key, loc);
