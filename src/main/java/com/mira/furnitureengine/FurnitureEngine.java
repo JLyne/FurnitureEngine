@@ -11,8 +11,6 @@ import com.mira.furnitureengine.listeners.*;
 
 import org.bukkit.ChatColor;
 
-import com.mira.furnitureengine.Metrics;
-
 @SuppressWarnings("unused")
 public final class FurnitureEngine extends JavaPlugin {
 	// WorldGuard Support
@@ -24,7 +22,7 @@ public final class FurnitureEngine extends JavaPlugin {
 	public String versionNew = "";
 	
 	public void onEnable() {	
-		getLogger().info(ChatColor.GOLD + "Furniture" + ChatColor.YELLOW + "Engine" + ChatColor.DARK_GRAY + " » " + ChatColor.GRAY + "Furniture Engine enabled!");
+		getLogger().info(ChatColor.GOLD + "Furniture" + ChatColor.YELLOW + "Engine" + ChatColor.DARK_GRAY + " ï¿½ " + ChatColor.GRAY + "Furniture Engine enabled!");
 		
 		loadConfig();
 		
@@ -38,9 +36,6 @@ public final class FurnitureEngine extends JavaPlugin {
 		 new RightClick(this);
 		 new FurniturePlace(this);
 		 new FurnitureBreak(this);
-		 
-		 int pluginId = 13146;
-	      Metrics metrics = new Metrics(this, pluginId);
 		
 		// Update Checker
 	      new UpdateChecker(this, 97134).getVersion(version -> {
@@ -51,7 +46,7 @@ public final class FurnitureEngine extends JavaPlugin {
 	        	  versionOld=this.getDescription().getVersion();
 	        	  versionNew=version;
 	        	  
-	              getLogger().info(ChatColor.GOLD + "Furniture" + ChatColor.YELLOW + "Engine" + ChatColor.DARK_GRAY + " » " + ChatColor.GRAY + "A new version is available: " + ChatColor.RED + "["+ versionOld + "]" + ChatColor.GRAY + " -> " + ChatColor.GOLD + "[" + versionNew + "]");
+	              getLogger().info(ChatColor.GOLD + "Furniture" + ChatColor.YELLOW + "Engine" + ChatColor.DARK_GRAY + " ï¿½ " + ChatColor.GRAY + "A new version is available: " + ChatColor.RED + "["+ versionOld + "]" + ChatColor.GRAY + " -> " + ChatColor.GOLD + "[" + versionNew + "]");
 	              getLogger().info(ChatColor.AQUA + "https://www.spigotmc.org/resources/furnitureengine-1-16-1-17.97134/");
 	          }
 	      });
@@ -59,7 +54,7 @@ public final class FurnitureEngine extends JavaPlugin {
 	}
 	
 	public void onDisable() {
-		 getLogger().info(ChatColor.GOLD + "Furniture" + ChatColor.YELLOW + "Engine" + ChatColor.DARK_GRAY + " » " + ChatColor.GRAY + "Furniture Engine disabled!");
+		 getLogger().info(ChatColor.GOLD + "Furniture" + ChatColor.YELLOW + "Engine" + ChatColor.DARK_GRAY + " ï¿½ " + ChatColor.GRAY + "Furniture Engine disabled!");
 	 }
 	  
 	public void loadConfig() {
@@ -72,7 +67,7 @@ public final class FurnitureEngine extends JavaPlugin {
 
 	    // WorldGuard may not be loaded
 	    if (plugin == null || !(plugin instanceof WorldGuardPlugin)) {
-	    	getLogger().info(ChatColor.GOLD + "Furniture" + ChatColor.YELLOW + "Engine" + ChatColor.DARK_GRAY + " » " + ChatColor.RED + "WorldGuard not found. Skipping!");
+	    	getLogger().info(ChatColor.GOLD + "Furniture" + ChatColor.YELLOW + "Engine" + ChatColor.DARK_GRAY + " ï¿½ " + ChatColor.RED + "WorldGuard not found. Skipping!");
 	        return null; // Maybe you want throw an exception instead
 	    }
 
