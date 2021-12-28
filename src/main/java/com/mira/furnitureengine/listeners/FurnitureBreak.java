@@ -7,7 +7,6 @@ import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 
-import com.comphenix.protocol.events.PacketEvent;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
@@ -179,10 +178,4 @@ public class FurnitureBreak implements Listener {
         }
     	return;
     }
-    
-    @EventHandler(priority = EventPriority.LOWEST)
-    public void onPacketReceiving(final PacketEvent event) {
-        event.setCancelled(false);
-    }
-    
 }
