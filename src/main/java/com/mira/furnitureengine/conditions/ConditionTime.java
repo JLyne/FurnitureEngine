@@ -7,20 +7,20 @@ public class ConditionTime {
 		input = input.replace("t=","");
 		
 		long time = player.getLocation().getWorld().getTime();
+
 		switch(input) {
 			case "day" -> {
 				if (time >= 0L && time <= 12000L) {
-					if(!org) return false;
-					return true;
+					return org;
 				}
 			}
 			case "night" -> {
-				if (time >= 12000L && time <= 0L) {
-					if(!org) return false;
-					return true;
+				if (time >= 12000L && time <= 24000L) {
+					return org;
 				}
 			}
 		}
+
 		return false;
 	}
 }

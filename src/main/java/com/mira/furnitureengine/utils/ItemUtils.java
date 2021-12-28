@@ -1,7 +1,6 @@
 package com.mira.furnitureengine.utils;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -18,7 +17,7 @@ import net.md_5.bungee.api.ChatColor;
 import java.lang.StringBuilder;
 
 public class ItemUtils {
-	private static Pattern gradient = Pattern.compile("<#[0-9a-fA-F]{6}>[^<]*</#[0-9a-fA-F]{6}>");
+	private static final Pattern gradient = Pattern.compile("<#[0-9a-fA-F]{6}>[^<]*</#[0-9a-fA-F]{6}>");
 	public static String id;
 	public static boolean test;
 	static FurnitureEngine main = FurnitureEngine.getPlugin(FurnitureEngine.class);
@@ -49,13 +48,10 @@ public class ItemUtils {
 		if(!player.getInventory().addItem(item).isEmpty()) {
 			dropItem(item, loc);
 		}
-		
-		return;
 	}
 	
 	public static void dropItem(ItemStack item, Location loc) {
 		loc.getWorld().dropItem(loc, item);
-		return;
 	}
 	
 	public static ItemStack setHandItem(String id, int amount) {
@@ -76,7 +72,7 @@ public class ItemUtils {
 		// Lore (Optional check)
 		
 		if(!main.getConfig().getStringList("Furniture." + id + ".lore").isEmpty()) {
-			ArrayList<String> loresList = new ArrayList<String>();
+			ArrayList<String> loresList = new ArrayList<>();
 			for(String text : main.getConfig().getStringList("Furniture." + id + ".lore")) {
 				loresList.add(translateHexColorCodes("&#","",ChatColor.translateAlternateColorCodes('&', text)));
 			}
@@ -131,7 +127,7 @@ public class ItemUtils {
     {
         final Pattern hexPattern = Pattern.compile(startTag + "([A-Fa-f0-9]{6})" + endTag);
         Matcher matcher = hexPattern.matcher(message);
-        StringBuffer buffer = new StringBuffer(message.length() + 4 * 8);
+        StringBuilder buffer = new StringBuilder(message.length() + 4 * 8);
         while (matcher.find())
         {
             String group = matcher.group(1);
@@ -167,7 +163,7 @@ public class ItemUtils {
     	StringBuilder sb = new StringBuilder();
     	int length = text.length();  
     	String[] textArray = text.split("\\s+");
-    	Float f = 0f;
+    	float f;
     	int i = 1;
     	for(String word : textArray) {
     		f = (float) (end.red - start.red);
@@ -176,7 +172,7 @@ public class ItemUtils {
     		int green = Math.round((start.green + f / (length - 1) * i));
     		f = (float) (end.blue - start.blue);
     		int blue = Math.round((start.blue + f / (length - 1) * i));
-    		sb.append("#" + toHexString(red, green, blue) + word);
+    		sb.append("#").append(toHexString(red, green, blue)).append(word);
     		i++;
     	}
     	return sb.toString();

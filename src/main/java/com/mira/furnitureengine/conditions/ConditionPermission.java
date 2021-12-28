@@ -7,9 +7,9 @@ public class ConditionPermission {
 		input = input.replace("w=","");
 		
 		if(player.hasPermission(input)) {
-			if(!org) return false;
-			return true;
+			return org;
 		}
+
 		return false;
 	}
 }

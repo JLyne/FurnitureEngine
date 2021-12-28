@@ -45,7 +45,6 @@ public class FurnitureAPI {
 			
 			// Rotation of item-frame
 			frame.setRotation(rotation);
-			return;
 		}
 	}
 	}
@@ -59,9 +58,8 @@ public class FurnitureAPI {
 		if(block.getType()==Material.BARRIER) {
 			List<Entity> nearbyEntites = (List<Entity>) block.getWorld().getNearbyEntities(block.getLocation().add(0, 1, 0), 0.13, 0.2, 0.13);
 			for (Entity nearbyEntity : nearbyEntites) {
-                if (nearbyEntity instanceof ItemFrame) {
-                    ItemFrame frame = (ItemFrame) nearbyEntity;
-                    if(frame.getItem().getType()==Material.OAK_PLANKS) {
+                if (nearbyEntity instanceof ItemFrame frame) {
+					if(frame.getItem().getType()==Material.OAK_PLANKS) {
                     	main.getConfig().getConfigurationSection("Furniture").getKeys(false).forEach(key -> {
                     		if(main.getConfig().getInt("Furniture." + key + ".custommodeldata")==frame.getItem().getItemMeta().getCustomModelData()) {
                     			if(frame.getLocation().getBlock().getLocation().getY()-1==block.getLocation().getY()&&frame.getLocation().getBlock().getLocation().getX()==block.getLocation().getX()&&frame.getLocation().getBlock().getLocation().getZ()==block.getLocation().getZ()) {
@@ -75,7 +73,6 @@ public class FurnitureAPI {
 		                    		}
 		                    		
                     			}
-	            				return;
                     		}
             			});
                     }
@@ -83,7 +80,6 @@ public class FurnitureAPI {
 			}
 		}
 		}
-		return;
 	}
 	
 	// Simulates a player interacting with furniture.
@@ -93,9 +89,8 @@ public class FurnitureAPI {
 		if(clicked.getType()==Material.BARRIER) {
 			List<Entity> nearbyEntites = (List<Entity>) world.getNearbyEntities(blockLocation.add(0, 1, 0), 0.5, 0.5, 0.5);
 			for (Entity nearbyEntity : nearbyEntites) {
-                if (nearbyEntity instanceof ItemFrame) {
-                    ItemFrame frame = (ItemFrame) nearbyEntity;
-                    if(frame.getItem().getType()==Material.OAK_PLANKS) {
+                if (nearbyEntity instanceof ItemFrame frame) {
+					if(frame.getItem().getType()==Material.OAK_PLANKS) {
                     	ItemMeta meta = frame.getItem().getItemMeta();
                     	main.getConfig().getConfigurationSection("Furniture").getKeys(false).forEach(key -> {
                     		if(frame.getLocation().getBlock().getLocation().getY()-1==clicked.getLocation().getY()&&frame.getLocation().getBlock().getLocation().getX()==clicked.getLocation().getX()&&frame.getLocation().getBlock().getLocation().getZ()==clicked.getLocation().getZ()) {
@@ -103,8 +98,6 @@ public class FurnitureAPI {
 	            					RightClick.executeAction(player, frame, key, blockLocation);
 	            				}
                     		}
-            				
-            				return;
             			});
                     }
                 }
@@ -115,7 +108,6 @@ public class FurnitureAPI {
 	// I wanted to keep stuff simple so instead of having to access "Util" these things can be found in the FurnitureAPI
 	public void GiveFurniture(String id,Player player, int amount) {
 		ItemUtils.giveItem(player, id, amount, null);
-		return;
 	}
 	
 	// Checks if there is furniture at a location. Returns furniture id or null.

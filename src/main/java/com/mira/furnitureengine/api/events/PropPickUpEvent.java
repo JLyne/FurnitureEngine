@@ -4,15 +4,16 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
+import org.jetbrains.annotations.NotNull;
 
 public class PropPickUpEvent extends Event{
 
 	private static final HandlerList handlers = new HandlerList();
 	private boolean cancelled;
 	
-	private Player interactingPlayer; 
+	private final Player interactingPlayer;
 	
-	private Location furnitureLocation;
+	private final Location furnitureLocation;
 	
 	public PropPickUpEvent(Player interactingPlayer, Location furnitureLocation) {
 		this.interactingPlayer = interactingPlayer;
@@ -35,7 +36,7 @@ public class PropPickUpEvent extends Event{
 		cancelled = cancel;
 	}
 
-	public HandlerList getHandlers() {
+	public @NotNull HandlerList getHandlers() {
 	    return handlers;
 	}
 

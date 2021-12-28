@@ -21,21 +21,11 @@ public class Condition {
 					String prefix = text.substring(0, text.lastIndexOf("{"));
 					String input = getText(text);
 					switch(prefix.toLowerCase()) {
-						case "biome" -> {
-							isOk = ConditionBiome.check(isOk, player, input);
-						}
-						case "world" -> {
-							isOk = ConditionWorld.check(isOk, player, input);
-						}
-						case "permission" -> {
-							isOk = ConditionPermission.check(isOk, player, input);
-						}
-						case "weather" -> {
-							isOk = ConditionWeather.check(isOk, player, input);
-						}
-						case "time" -> {
-							isOk = ConditionTime.check(isOk, player, input);
-						}
+						case "biome" -> isOk = ConditionBiome.check(isOk, player, input);
+						case "world" -> isOk = ConditionWorld.check(isOk, player, input);
+						case "permission" -> isOk = ConditionPermission.check(isOk, player, input);
+						case "weather" -> isOk = ConditionWeather.check(isOk, player, input);
+						case "time" -> isOk = ConditionTime.check(isOk, player, input);
 					}
 				} else return false;
 			}

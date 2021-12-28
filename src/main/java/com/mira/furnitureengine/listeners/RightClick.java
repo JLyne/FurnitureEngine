@@ -15,17 +15,14 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.plugin.Plugin;
 
 import com.mira.furnitureengine.FurnitureEngine;
 import com.mira.furnitureengine.api.events.FurnitureInteractEvent;
 import com.mira.furnitureengine.utils.ListenerUtils;
 
 //import dev.geco.gsit.api.GSitAPI;
-import net.md_5.bungee.api.ChatColor;
 
 import javax.annotation.Nullable;
 
@@ -34,7 +31,7 @@ public class RightClick implements Listener {
 	
 	
 	public RightClick(FurnitureEngine plugin) {
-		plugin.getServer().getPluginManager().registerEvents(this, (Plugin)plugin);
+		plugin.getServer().getPluginManager().registerEvents(this, plugin);
 	}
 	
 	public static Location fnLocation;
@@ -50,41 +47,34 @@ public class RightClick implements Listener {
 			if(clicked.getType()==Material.BARRIER) {
 				List<Entity> nearbyEntites = (List<Entity>) world.getNearbyEntities(blockLocation.add(0, 1, 0), 0.5, 0.5, 0.5);
 				for (Entity nearbyEntity : nearbyEntites) {
-	                if (nearbyEntity instanceof ItemFrame) {
-	                    ItemFrame frame = (ItemFrame) nearbyEntity;
-	                    if(frame.getItem().getType()==Material.OAK_PLANKS) {
+	                if (nearbyEntity instanceof ItemFrame frame) {
+						if(frame.getItem().getType()==Material.OAK_PLANKS) {
 	                    	ItemMeta meta = frame.getItem().getItemMeta();
 	                    	main.getConfig().getConfigurationSection("Furniture").getKeys(false).forEach(key -> {
 	                    		if(frame.getLocation().getBlock().getLocation().getY()-1==clicked.getLocation().getY()&&frame.getLocation().getBlock().getLocation().getX()==clicked.getLocation().getX()&&frame.getLocation().getBlock().getLocation().getZ()==clicked.getLocation().getZ()) {
 		            				if(meta.getCustomModelData()==main.getConfig().getInt("Furniture." + key+".custommodeldata")) {
 		            					executeAction(player, frame, key, blockLocation);
 		            				}
-	                    		}	
-	            				return;
+	                    		}
 	            			});
 	                    }
 	                }
 	            }
 			}
 		}
-		return;
 	}
 	
 	@EventHandler
 	public void onEntityInteract(PlayerInteractEntityEvent ev) {
 		Player player = ev.getPlayer();
 		Entity e = ev.getRightClicked();
-		if(e instanceof ItemFrame&&!player.isSneaking()) {
-			ItemFrame frame = (ItemFrame) e;
-            if(frame.getItem().getType()==Material.OAK_PLANKS) {
+		if(e instanceof ItemFrame frame &&!player.isSneaking()) {
+			if(frame.getItem().getType()==Material.OAK_PLANKS) {
             	ItemMeta meta = frame.getItem().getItemMeta();
             	main.getConfig().getConfigurationSection("Furniture").getKeys(false).forEach(key -> {
         				if(meta.getCustomModelData()==main.getConfig().getInt("Furniture." + key+".custommodeldata")) {
         					executeAction(player, frame, key, e.getLocation());
         				}
-            		
-    				
-    				return;
     			});
             }
 		}
@@ -109,7 +99,6 @@ public class RightClick implements Listener {
 		// Commands Executer
 		fnLocation = frame.getLocation().getBlock().getLocation().add(0,-1,0);
 		ListenerUtils.executeCommand("right-click", player, key, loc);
-		} else return;
-		
+		}
 	}
 }

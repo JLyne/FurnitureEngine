@@ -17,7 +17,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
-import org.bukkit.plugin.Plugin;
 
 import com.mira.furnitureengine.FurnitureEngine;
 import com.mira.furnitureengine.api.events.FurniturePlaceEvent;
@@ -41,11 +40,9 @@ import com.mira.furnitureengine.utils.*;
 public class FurniturePlace implements Listener {
 	// TODO: New Placing System
 	FurnitureEngine main = FurnitureEngine.getPlugin(FurnitureEngine.class);
-    ItemStack itemFrameItem;
-    public String id;
 
-    public FurniturePlace(FurnitureEngine plugin) {
-        plugin.getServer().getPluginManager().registerEvents(this, (Plugin) plugin);
+	public FurniturePlace(FurnitureEngine plugin) {
+        plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
     @EventHandler
@@ -114,7 +111,6 @@ public class FurniturePlace implements Listener {
             if (item.getItemMeta().hasCustomModelData()) {
                 e.setCancelled(true);
             }
-            return;
         }
     }
 
@@ -185,16 +181,14 @@ public class FurniturePlace implements Listener {
                     		// 0x0x0 Placing
                     		List < Entity > nearbyEntites = (List < Entity > ) blockPlaced.getWorld().getNearbyEntities(blockPlaced.getLocation().add(0, 1, 0), 2 ,2, 2);
                     		for (Entity nearbyEntity: nearbyEntites) {
-                                if (nearbyEntity instanceof ItemFrame) {
-                                	ItemFrame frame = (ItemFrame) nearbyEntity;
+                                if (nearbyEntity instanceof ItemFrame frame) {
 
-                                	if (frame.getItem().getType() == Material.OAK_PLANKS) {
+									if (frame.getItem().getType() == Material.OAK_PLANKS) {
                                         main.getConfig().getConfigurationSection("Furniture").getKeys(false).forEach(id -> {
                                             if (main.getConfig().getInt("Furniture." + id + ".custommodeldata") == frame.getItem().getItemMeta().getCustomModelData()) {
                                                 if(main.getConfig().getInt("Furniture." + id + ".height")==0&&frame.getLocation().getBlock().getLocation().getY() == blockPlaced.getLocation().getY() && frame.getLocation().getBlock().getLocation().getX() == blockPlaced.getLocation().getX() && frame.getLocation().getBlock().getLocation().getZ() == blockPlaced.getLocation().getZ()) {
                                                 	e.setCancelled(true);   
                                                 }
-                                                return;
                                             }
                                         });
                                     }
@@ -253,7 +247,6 @@ public class FurniturePlace implements Listener {
                         e.setCancelled(true);
                     }
                 } else e.setCancelled(true);
-                return;
             }
         });
         System.out.println(e.isCancelled());

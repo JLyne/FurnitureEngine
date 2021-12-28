@@ -7,17 +7,16 @@ import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
 import com.mira.furnitureengine.FurnitureEngine;
+import org.jetbrains.annotations.NotNull;
 
 
 public class FurniturePlaceEvent extends Event{
-	FurnitureEngine main = FurnitureEngine.getPlugin(FurnitureEngine.class);
-
 	private static final HandlerList handlers = new HandlerList();
 	private boolean cancelled;
 	
-	private Player interactingPlayer; 
+	private final Player interactingPlayer;
 	
-	private Location furnitureLocation;
+	private final Location furnitureLocation;
 	
 	
 	public FurniturePlaceEvent(Player interactingPlayer, Location furnitureLocation) {
@@ -41,7 +40,7 @@ public class FurniturePlaceEvent extends Event{
 		cancelled = cancel;
 	}
 
-	public HandlerList getHandlers() {
+	public @NotNull HandlerList getHandlers() {
 	    return handlers;
 	}
 

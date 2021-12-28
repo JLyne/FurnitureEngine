@@ -7,9 +7,9 @@ public class ConditionBiome {
 		input = input.replace("b=","");
 		
 		if(player.getLocation().getBlock().getBiome().toString().equals(input)) {
-			if(!org) return false;
-			return true;
+			return org;
 		}
+
 		return false;
 	}
 }

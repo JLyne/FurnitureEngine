@@ -7,8 +7,7 @@ public class ConditionWorld {
 		input = input.replace("w=","");
 		
 		if(player.getLocation().getBlock().getWorld().getName().equals(input)) {
-			if(!org) return false;
-			return true;
+			return org;
 		}
 		return false;
 	}

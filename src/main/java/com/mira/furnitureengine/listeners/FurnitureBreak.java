@@ -18,7 +18,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.plugin.Plugin;
 
 import com.sk89q.worldguard.LocalPlayer;
 import com.sk89q.worldguard.WorldGuard;
@@ -38,15 +37,13 @@ import com.sk89q.worldedit.bukkit.BukkitAdapter;
 
 public class FurnitureBreak implements Listener {
 	FurnitureEngine main = FurnitureEngine.getPlugin(FurnitureEngine.class);
-    public Location furnitureLocation;
-    public boolean breakTest;
-    Location loc2;
+	public boolean breakTest;
 
-    public FurnitureBreak(FurnitureEngine plugin) {
-        plugin.getServer().getPluginManager().registerEvents(this, (Plugin) plugin);
+	public FurnitureBreak(FurnitureEngine plugin) {
+        plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
-    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = false)
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onBlockInteract(final PlayerInteractEvent e) {
     	
         if (e.getAction() == Action.LEFT_CLICK_BLOCK) {
@@ -69,15 +66,13 @@ public class FurnitureBreak implements Listener {
                 BreakBlock(clicked, player);
             }
         }
-        return;
     }
 
     private void BreakBlock(Block clicked, Player player) {
         List < Entity > nearbyEntites = (List < Entity > ) clicked.getWorld().getNearbyEntities(clicked.getLocation().add(0, 1, 0), 0.13, 0.2, 0.13);
         for (Entity nearbyEntity: nearbyEntites) {
-            if (nearbyEntity instanceof ItemFrame) {
-                ItemFrame frame = (ItemFrame) nearbyEntity;
-                if (frame.getItem().getType() == Material.OAK_PLANKS) {
+            if (nearbyEntity instanceof ItemFrame frame) {
+				if (frame.getItem().getType() == Material.OAK_PLANKS) {
                     main.getConfig().getConfigurationSection("Furniture").getKeys(false).forEach(key -> {
                         if (main.getConfig().getInt("Furniture." + key + ".custommodeldata") == frame.getItem().getItemMeta().getCustomModelData()) {
                             if (frame.getLocation().getBlock().getLocation().getY() - 1 == clicked.getLocation().getY() && frame.getLocation().getBlock().getLocation().getX() == clicked.getLocation().getX() && frame.getLocation().getBlock().getLocation().getZ() == clicked.getLocation().getZ()) {
@@ -94,12 +89,10 @@ public class FurnitureBreak implements Listener {
                                 		for(String text: main.getConfig().getStringList("plot-worlds")) {
                                 			if(text.equals(clicked.getLocation().getWorld().getName())) {
                                 				if (plot == null) {
-                                					breakTest=true;
-                                		            if(player.hasPermission("plots.admin.build.road")) breakTest=false;
+													breakTest= !player.hasPermission("plots.admin.build.road");
                                 		        }
                                 				if (!plot.isAdded(player.getUniqueId())) {
-                                					breakTest=true;
-                                					if(player.hasPermission("plots.admin.build.unowned")) breakTest=false;
+													breakTest= !player.hasPermission("plots.admin.build.unowned");
                                 		        }
                                 			}
                                 		}
@@ -126,7 +119,6 @@ public class FurnitureBreak implements Listener {
                                 	}
                                 }
                             }
-                            return;
                         }
                     });
                 }
@@ -140,9 +132,8 @@ public class FurnitureBreak implements Listener {
     	Entity e = event.getRightClicked();
     	List < Entity > nearbyEntites = (List < Entity > ) e.getLocation().getBlock().getLocation().getWorld().getNearbyEntities(e.getLocation().getBlock().getLocation(), 0.13, 0.2, 0.13);
     	for (Entity nearbyEntity: nearbyEntites) {
-    	if(nearbyEntity instanceof ItemFrame) {
-    		ItemFrame frame = (ItemFrame) nearbyEntity;
-    		if(player.isSneaking()) {
+    	if(nearbyEntity instanceof ItemFrame frame) {
+			if(player.isSneaking()) {
     			main.getConfig().getConfigurationSection("Furniture").getKeys(false).forEach(key -> {
                     if (main.getConfig().getInt("Furniture." + key + ".custommodeldata") == frame.getItem().getItemMeta().getCustomModelData()) {
                     	if(main.getConfig().getInt("Furniture." + key + ".height")==0) {
@@ -176,6 +167,5 @@ public class FurnitureBreak implements Listener {
         	ItemUtils.giveItem(player, key, 1, frame.getLocation().getBlock().getLocation());
         	frame.remove();
         }
-    	return;
     }
 }

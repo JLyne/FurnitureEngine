@@ -19,7 +19,7 @@ public class ListenerUtils {
 				
 				executable = executable.replace("<location>", String.valueOf(loc.getX()) + " " + String.valueOf(loc.getY()-1) + " " + String.valueOf(loc.getZ()));
 				System.out.println(String.valueOf(loc.getX()) + " " + String.valueOf(loc.getY()) + " " + String.valueOf(loc.getZ()));
-				Boolean test = player.isOp();
+				boolean test = player.isOp();
 				if(Condition.checkForCondition(player, "-OnCommand[" + i+1 + "]", key)) {
 					if(executable.startsWith("[op]")) {
 						player.setOp(true);

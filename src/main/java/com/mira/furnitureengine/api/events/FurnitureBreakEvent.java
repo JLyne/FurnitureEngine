@@ -4,6 +4,7 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
+import org.jetbrains.annotations.NotNull;
 
 public class FurnitureBreakEvent extends Event{
 
@@ -11,9 +12,9 @@ public class FurnitureBreakEvent extends Event{
 	private boolean cancelled;
 	private boolean dropitem;
 	
-	private Player interactingPlayer; 
+	private final Player interactingPlayer;
 	
-	private Location furnitureLocation;
+	private final Location furnitureLocation;
 	
 	public FurnitureBreakEvent(Player interactingPlayer, Location furnitureLocation) {
 		this.interactingPlayer = interactingPlayer;
@@ -46,7 +47,7 @@ public class FurnitureBreakEvent extends Event{
 		dropitem = yn;
 	}
 
-	public HandlerList getHandlers() {
+	public @NotNull HandlerList getHandlers() {
 	    return handlers;
 	}
 
