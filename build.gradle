@@ -45,7 +45,7 @@ tasks {
 
     compileJava {
         options.compilerArgs += ["-Xlint:all", "-Xlint:-processing"]
-        options.encoding = 'UTF-8'
+        options.encoding = 'Cp1252'
     }
 }
 
