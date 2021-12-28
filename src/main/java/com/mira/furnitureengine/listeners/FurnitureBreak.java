@@ -50,7 +50,7 @@ public class FurnitureBreak implements Listener {
     public void onBlockInteract(final PlayerInteractEvent e) {
     	
         if (e.getAction() == Action.LEFT_CLICK_BLOCK) {
-            Player player = (Player) e.getPlayer();
+            Player player = e.getPlayer();
             Block clicked = e.getClickedBlock();
             
             if (main.wg != null) {

@@ -135,7 +135,7 @@ public class FurniturePlace implements Listener {
 
                             // Placing item frame on top of block
                             World world = blockPlaced.getWorld();
-                            ItemFrame frame = (ItemFrame) world.spawn(blockPlaced.getLocation().add(0, 1, 0), ItemFrame.class);
+                            ItemFrame frame = world.spawn(blockPlaced.getLocation().add(0, 1, 0), ItemFrame.class);
                             
                             frame.setInvulnerable(true);
                             frame.setFixed(true);
@@ -203,7 +203,7 @@ public class FurniturePlace implements Listener {
                     		if(!e.isCancelled()) {
                     			blockPlaced.setType(Material.AIR);
                         		World world = blockPlaced.getWorld();
-                                ItemFrame frame = (ItemFrame) world.spawn(blockPlaced.getLocation(), ItemFrame.class);
+                                ItemFrame frame = world.spawn(blockPlaced.getLocation(), ItemFrame.class);
                                 frame.setInvulnerable(true);
                                 frame.setFixed(true);
                                 frame.setVisible(false);

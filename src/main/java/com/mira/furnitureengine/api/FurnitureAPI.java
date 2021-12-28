@@ -36,7 +36,7 @@ public class FurnitureAPI {
 			
 			// Placing item frame on top of block
 			World world = block.getWorld();
-			ItemFrame frame = (ItemFrame) world.spawn(block.getLocation().add(0, 1, 0),ItemFrame.class);
+			ItemFrame frame = world.spawn(block.getLocation().add(0, 1, 0), ItemFrame.class);
 			frame.setInvulnerable(true);
 			frame.setFixed(true);
 			frame.setVisible(false);

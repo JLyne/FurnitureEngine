@@ -42,7 +42,7 @@ public class RightClick implements Listener {
 	// Manages Block Interaction
 	@EventHandler
 	public void onBlockInteract(PlayerInteractEvent e) {
-		Player player = (Player) e.getPlayer();
+		Player player = e.getPlayer();
 		if(e.getAction() == Action.RIGHT_CLICK_BLOCK&&e.getHand()==EquipmentSlot.HAND&&!player.isSneaking()) {
 			Block clicked = e.getClickedBlock();
 			Location blockLocation = clicked.getLocation();
@@ -72,7 +72,7 @@ public class RightClick implements Listener {
 	
 	@EventHandler
 	public void onEntityInteract(PlayerInteractEntityEvent ev) {
-		Player player = (Player) ev.getPlayer();
+		Player player = ev.getPlayer();
 		Entity e = ev.getRightClicked();
 		if(e instanceof ItemFrame&&!player.isSneaking()) {
 			ItemFrame frame = (ItemFrame) e;
