@@ -2,10 +2,11 @@ package com.mira.furnitureengine.utils;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.libs.jline.internal.Nullable;
 import org.bukkit.entity.Player;
 
 import com.mira.furnitureengine.FurnitureEngine;
+
+import javax.annotation.Nullable;
 
 public class ListenerUtils {
 	static FurnitureEngine main = FurnitureEngine.getPlugin(FurnitureEngine.class);
