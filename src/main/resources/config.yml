@@ -17,7 +17,6 @@ Furniture:
       block-break: {}
 
 Options:
-    check-for-updates: true
     check-place-permissions: true
     check-break-permissions: true
 

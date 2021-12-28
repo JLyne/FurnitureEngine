@@ -112,15 +112,4 @@ public class RightClick implements Listener {
 		} else return;
 		
 	}
-	
-	// Update Checker Thing
-	@EventHandler
-	public void onPlayerJoin(PlayerJoinEvent e) {
-		Player player = e.getPlayer();
-		if(player.hasPermission("furnitureengine.admin")&&main.getConfig().getBoolean("Options.check-for-updates")&&main.versionChecked) {
-			player.sendMessage(ChatColor.GOLD + "Furniture" + ChatColor.YELLOW + "Engine" + ChatColor.DARK_GRAY + " � " + ChatColor.GRAY + "A new version is available: " + ChatColor.RED + "["+ main.versionOld + "]" + ChatColor.GRAY + " -> " + ChatColor.GOLD + "[" + main.versionNew + "]");
-			player.sendMessage(ChatColor.AQUA + "https://www.spigotmc.org/resources/furnitureengine-1-16-1-17.97134/");
-		}
-	}
-	
 }

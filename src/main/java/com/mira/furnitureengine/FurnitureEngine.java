@@ -3,7 +3,6 @@ package com.mira.furnitureengine;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import com.mira.furnitureengine.utils.UpdateChecker;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 
 import com.mira.furnitureengine.commands.*;
@@ -36,21 +35,6 @@ public final class FurnitureEngine extends JavaPlugin {
 		 new RightClick(this);
 		 new FurniturePlace(this);
 		 new FurnitureBreak(this);
-		
-		// Update Checker
-	      new UpdateChecker(this, 97134).getVersion(version -> {
-	          if (this.getDescription().getVersion().equals(version)) {
-	              // Nothing happens;
-	          } else {
-	        	  versionChecked = true;
-	        	  versionOld=this.getDescription().getVersion();
-	        	  versionNew=version;
-	        	  
-	              getLogger().info(ChatColor.GOLD + "Furniture" + ChatColor.YELLOW + "Engine" + ChatColor.DARK_GRAY + " � " + ChatColor.GRAY + "A new version is available: " + ChatColor.RED + "["+ versionOld + "]" + ChatColor.GRAY + " -> " + ChatColor.GOLD + "[" + versionNew + "]");
-	              getLogger().info(ChatColor.AQUA + "https://www.spigotmc.org/resources/furnitureengine-1-16-1-17.97134/");
-	          }
-	      });
-
 	}
 	
 	public void onDisable() {
