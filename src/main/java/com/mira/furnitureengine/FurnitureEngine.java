@@ -1,29 +1,50 @@
 package com.mira.furnitureengine;
 
-import org.bukkit.plugin.Plugin;
+import com.mira.furnitureengine.commands.CommandTabCompleter;
+import com.mira.furnitureengine.commands.CoreCommand;
+import com.mira.furnitureengine.handlers.GriefPreventionHandler;
+import com.mira.furnitureengine.handlers.WorldGuardHandler;
+import com.mira.furnitureengine.listeners.FurnitureBreak;
+import com.mira.furnitureengine.listeners.FurniturePlace;
+import com.mira.furnitureengine.listeners.RightClick;
+import com.mira.furnitureengine.tags.FurnitureTag;
+import org.bukkit.NamespacedKey;
 import org.bukkit.plugin.java.JavaPlugin;
-
-import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
-
-import com.mira.furnitureengine.commands.*;
-import com.mira.furnitureengine.listeners.*;
 
 @SuppressWarnings("unused")
 public final class FurnitureEngine extends JavaPlugin {
-	// WorldGuard Support
-	public WorldGuardPlugin wg;
+	public final NamespacedKey furnitureKey;
+	public final FurnitureTag furnitureTagType;
 
-	// Update Checker
-	public boolean versionChecked = false;
-	public String versionOld = "";
-	public String versionNew = "";
-	
-	public void onEnable() {	
-		getLogger().info(ChatColor.GOLD + "Furniture" + ChatColor.YELLOW + "Engine" + ChatColor.DARK_GRAY + " � " + ChatColor.GRAY + "Furniture Engine enabled!");
-		
+	private WorldGuardHandler worldGuardHandler;
+	private GriefPreventionHandler griefPreventionHandler;
+
+	private final FurnitureManager furnitureManager;
+
+	public FurnitureEngine() {
+		super();
+
+		furnitureManager = new FurnitureManager(this);
+		furnitureKey = new NamespacedKey(this, "furniture");
+		furnitureTagType = new FurnitureTag(this);
+	}
+
+	public void onEnable() {
 		loadConfig();
 
-		wg = getWorldGuard();
+		furnitureManager.loadFurniture();
+
+		try {
+			worldGuardHandler = new WorldGuardHandler();
+		} catch (NoClassDefFoundError e) {
+			getLogger().warning("WorldGuard not found");
+		}
+
+		try {
+			griefPreventionHandler = new GriefPreventionHandler();
+		} catch (NoClassDefFoundError e) {
+			getLogger().warning("WorldGuard not found");
+		}
 
 		// default
 		getCommand("furnitureengine").setExecutor(new CoreCommand());
@@ -34,25 +55,21 @@ public final class FurnitureEngine extends JavaPlugin {
 		new FurniturePlace(this);
 		new FurnitureBreak(this);
 	}
-	
-	public void onDisable() {
-		 getLogger().info(ChatColor.GOLD + "Furniture" + ChatColor.YELLOW + "Engine" + ChatColor.DARK_GRAY + " � " + ChatColor.GRAY + "Furniture Engine disabled!");
-	 }
-	  
+
 	public void loadConfig() {
 		getConfig().options().copyDefaults(true);
 		saveConfig();
 	}
 
-	private WorldGuardPlugin getWorldGuard() {
-		Plugin plugin = getServer().getPluginManager().getPlugin("WorldGuard");
+	public FurnitureManager getFurnitureManager() {
+		return furnitureManager;
+	}
 
-	    // WorldGuard may not be loaded
-	    if (!(plugin instanceof WorldGuardPlugin)) {
-	    	getLogger().info(ChatColor.GOLD + "Furniture" + ChatColor.YELLOW + "Engine" + ChatColor.DARK_GRAY + " � " + ChatColor.RED + "WorldGuard not found. Skipping!");
-	        return null; // Maybe you want throw an exception instead
-	    }
+	public WorldGuardHandler getWorldGuardHandler() {
+		return worldGuardHandler;
+	}
 
-		return (WorldGuardPlugin) plugin;
+	public GriefPreventionHandler getGriefPreventionHandler() {
+		return griefPreventionHandler;
 	}
 }

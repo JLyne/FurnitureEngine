@@ -2,7 +2,7 @@ name: FurnitureEngine
 version: @project.version@
 main: com.mira.furnitureengine.FurnitureEngine
 author: Mira
-api-version: 1.16
+api-version: 1.17
 description: Allows you to make custom usable furniture.
 load: STARTUP
 softdepend: [GSit]

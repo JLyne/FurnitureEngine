@@ -1,15 +1,14 @@
 package com.mira.furnitureengine.api.events;
 
-
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
-import com.mira.furnitureengine.FurnitureEngine;
 import org.jetbrains.annotations.NotNull;
 
 
+@SuppressWarnings("unused")
 public class FurniturePlaceEvent extends Event {
 	private static final HandlerList handlers = new HandlerList();
 	private boolean cancelled;

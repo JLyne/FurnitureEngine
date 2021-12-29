@@ -30,9 +30,10 @@ repositories {
 }
 
 dependencies {
-    compileOnly 'io.papermc.paper:paper-api:1.18.1-R0.1-SNAPSHOT'
+    compileOnly 'io.papermc.paper:paper-api:1.17.1-R0.1-SNAPSHOT'
     compileOnly 'com.sk89q.worldguard:worldguard-bukkit:7.0.5'
     compileOnly 'com.plotsquared:PlotSquared-Core:6.2.1'
+    compileOnly 'com.github.TechFortress:GriefPrevention:16.17.1'
     implementation 'com.github.BeYkeRYkt:LightAPI:5.1.0-Bukkit'
 }
 

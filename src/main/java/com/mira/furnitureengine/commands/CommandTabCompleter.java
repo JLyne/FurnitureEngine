@@ -2,8 +2,9 @@ package com.mira.furnitureengine.commands;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
+import java.util.stream.Collectors;
 
+import com.mira.furnitureengine.FurnitureManager;
 import org.bukkit.Bukkit;
 
 import org.bukkit.command.Command;
@@ -15,7 +16,7 @@ import com.mira.furnitureengine.FurnitureEngine;
 import org.jetbrains.annotations.NotNull;
 
 public class CommandTabCompleter implements TabCompleter {
-	FurnitureEngine main = FurnitureEngine.getPlugin(FurnitureEngine.class);
+	private final FurnitureManager furnitureManager = FurnitureEngine.getPlugin(FurnitureEngine.class).getFurnitureManager();
 
 	@Override
 	public List<String> onTabComplete(
@@ -42,8 +43,9 @@ public class CommandTabCompleter implements TabCompleter {
 		}
 
 		if (args.length == 3 && args[0].equals("give")) {
-			return new ArrayList<>(Objects.requireNonNull(main.getConfig().getConfigurationSection("Furniture"))
-										   .getKeys(false));
+			return furnitureManager.getAllFurniture().keySet().stream()
+					.filter(id -> id.startsWith(args[2]))
+					.collect(Collectors.toList());
 		}
 
 		if (args.length == 4 && args[0].equals("give")) {
@@ -53,8 +55,9 @@ public class CommandTabCompleter implements TabCompleter {
 		}
 
 		if (args.length == 2 && args[0].equals("get")) {
-			return new ArrayList<>(Objects.requireNonNull(main.getConfig().getConfigurationSection("Furniture"))
-										   .getKeys(false));
+			return furnitureManager.getAllFurniture().keySet().stream()
+					.filter(id -> id.startsWith(args[1]))
+					.collect(Collectors.toList());
 		}
 
 		if (args.length == 3 && args[0].equals("get")) {
