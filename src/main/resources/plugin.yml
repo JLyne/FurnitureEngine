@@ -5,7 +5,10 @@ author: Mira
 api-version: 1.17
 description: Allows you to make custom usable furniture.
 load: STARTUP
-softdepend: [GSit]
+softdepend:
+  - GSit
+  - GriefPrevention
+  - WorldGuard
 
 commands:
   furnitureengine:
