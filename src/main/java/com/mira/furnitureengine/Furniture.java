@@ -26,6 +26,9 @@ public class Furniture {
 	private boolean fullRotate = false;
 	private boolean cancelDrop = false;
 
+	private boolean chair = false;
+	private double chairOffset = 0.0f;
+
 	private Map<String, List<String>> commands = new HashMap<>();
 	private List<String> conditions = new ArrayList<>();
 
@@ -144,8 +147,28 @@ public class Furniture {
 		this.conditions = conditions;
 	}
 
+	public boolean isChair() {
+		return chair;
+	}
+
+	public void setChair(boolean chair) {
+		this.chair = chair;
+	}
+
+	public double getChairOffset() {
+		return chairOffset;
+	}
+
+	public void setChairOffset(double chairOffset) {
+		this.chairOffset = chairOffset;
+	}
+
 	public boolean isProp() {
 		return height == 0 || width == 0 || length == 0;
+	}
+
+	public boolean hasCommands(String mode) {
+		return commands.containsKey(mode) && !commands.get(mode).isEmpty();
 	}
 
 	public void executeCommand(String mode, @Nullable Player player, @Nullable Location loc) {

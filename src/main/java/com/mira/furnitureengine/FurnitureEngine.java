@@ -2,6 +2,7 @@ package com.mira.furnitureengine;
 
 import com.mira.furnitureengine.commands.CommandTabCompleter;
 import com.mira.furnitureengine.commands.CoreCommand;
+import com.mira.furnitureengine.handlers.GSitHandler;
 import com.mira.furnitureengine.handlers.GriefPreventionHandler;
 import com.mira.furnitureengine.handlers.WorldGuardHandler;
 import com.mira.furnitureengine.listeners.FurnitureBreak;
@@ -19,6 +20,7 @@ public final class FurnitureEngine extends JavaPlugin {
 
 	private WorldGuardHandler worldGuardHandler;
 	private GriefPreventionHandler griefPreventionHandler;
+	private GSitHandler gSitHandler;
 
 	private final FurnitureManager furnitureManager;
 	private final RecipeManager recipeManager;
@@ -47,7 +49,13 @@ public final class FurnitureEngine extends JavaPlugin {
 		try {
 			griefPreventionHandler = new GriefPreventionHandler();
 		} catch (NoClassDefFoundError e) {
-			getLogger().warning("WorldGuard not found");
+			getLogger().warning("GriefPrevention not found");
+		}
+
+		gSitHandler = new GSitHandler();
+
+		if(!gSitHandler.isgSitEnabled()) {
+			getLogger().warning("GSit not found");
 		}
 
 		// default
@@ -84,5 +92,9 @@ public final class FurnitureEngine extends JavaPlugin {
 
 	public GriefPreventionHandler getGriefPreventionHandler() {
 		return griefPreventionHandler;
+	}
+
+	public GSitHandler getgSitHandler() {
+		return gSitHandler;
 	}
 }

@@ -42,11 +42,12 @@ public class RightClick implements Listener {
 			return;
 		}
 
-		event.setCancelled(true);
 		Location blockLocation = clicked.getLocation();
 
-		furnitureManager.getPlacedFurniture(clicked)
-				.forEach((itemFrame, furniture) -> furnitureManager.executeAction(itemFrame, player, blockLocation));
+		if(furnitureManager.getPlacedFurniture(clicked).keySet().stream()
+				.anyMatch(itemFrame -> furnitureManager.executeAction(itemFrame, player, blockLocation))) {
+			event.setCancelled(true);
+		}
 	}
 
 	@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
@@ -58,6 +59,8 @@ public class RightClick implements Listener {
 			return;
 		}
 
-		furnitureManager.executeAction(frame, player, frame.getLocation());
+		if(furnitureManager.executeAction(frame, player, frame.getLocation())) {
+			event.setCancelled(true);
+		}
 	}
 }

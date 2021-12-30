@@ -50,6 +50,9 @@ public class FurnitureManager {
 			boolean fullRotate = furnitureConfig.getBoolean(key + ".full-rotate", false);
 			boolean cancelItemDrop = furnitureConfig.getBoolean(key + ".cancel-item-drop", false);
 
+			boolean chair = furnitureConfig.getBoolean(key + ".chair.enabled", false);
+			double chairOffset = furnitureConfig.getDouble(key + ".chair.yoffset", 0);
+
 			Material material = Material.getMaterial(furnitureConfig.getString(key + ".item", "OAK_PLANKS"));
 			List<String> conditions = furnitureConfig.getStringList(key + ".conditions");
 			Map<String, List<String>> commands = new HashMap<>();
@@ -66,6 +69,8 @@ public class FurnitureManager {
 			item.setFullRotate(fullRotate);
 			item.setCommands(commands);
 			item.setConditions(conditions);
+			item.setChair(chair);
+			item.setChairOffset(chairOffset);
 
 			if (material != null) {
 				item.setMaterial(material);
@@ -155,6 +160,8 @@ public class FurnitureManager {
 
 		existingFurniture.keySet().removeIf(frame -> breakFurniture(frame, actor));
 
+		plugin.getgSitHandler().removeSeats(block);
+
 		if (block.getType().equals(Material.BARRIER) && existingFurniture.values().stream().allMatch(
 				Furniture::isProp)) {
 			block.breakNaturally();
@@ -206,19 +213,32 @@ public class FurnitureManager {
 		return true;
 	}
 
-	public void executeAction(ItemFrame frame, Player actor, @Nullable Location location) {
+	public boolean executeAction(ItemFrame frame, Player actor, @Nullable Location location) {
 		Furniture furniture = getPlacedFurnitureType(frame);
 
 		if (furniture == null) {
-			return;
+			return false;
 		}
 
-		FurnitureInteractEvent event = new FurnitureInteractEvent(actor, frame.getLocation().getBlock().getLocation());
+		Location blockLocation = frame.getLocation().subtract(0, 1, 0);
+		FurnitureInteractEvent event = new FurnitureInteractEvent(actor, blockLocation);
 		Bukkit.getServer().getPluginManager().callEvent(event);
 
 		if (!event.isCancelled()) {
+			if(furniture.isChair()) {
+				plugin.getgSitHandler().sit(blockLocation.getBlock(), actor, furniture.getChairOffset());
+				return true;
+			}
+
+			if(!furniture.hasCommands("right-click")) {
+				return false;
+			}
+
 			// Commands Executer
 			furniture.executeCommand("right-click", actor, location);
+			return true;
+		} else {
+			return false;
 		}
 	}
 
