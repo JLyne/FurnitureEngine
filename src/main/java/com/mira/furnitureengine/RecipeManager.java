@@ -47,13 +47,13 @@ public class RecipeManager {
 			ConfigurationSection ingredientSection = furnitureConfig.getConfigurationSection(key + ".crafting.ingredients");
 			Map<Character, Material> ingredients = new HashMap<>();
 
-			if(ingredientSection != null) {
-				ingredientSection.getKeys(false)
-						.forEach(character -> ingredients.put(character.charAt(0),
-														 Material.valueOf(ingredientSection.getString(character, ""))));
-			}
-
 			try {
+				if(ingredientSection != null) {
+					ingredientSection.getKeys(false)
+							.forEach(character -> ingredients.put(character.charAt(0),
+															 Material.valueOf(ingredientSection.getString(character, ""))));
+				}
+
 				ShapedRecipe recipe = new ShapedRecipe(recipeKey, ItemUtils.createFurnitureItem(furniture, 1));
 				recipe.shape(shape);
 				recipe.setGroup(group);
