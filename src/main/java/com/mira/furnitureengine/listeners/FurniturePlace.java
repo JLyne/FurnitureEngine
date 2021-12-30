@@ -39,12 +39,10 @@ public class FurniturePlace implements Listener {
 		}
 
 		if (!furnitureManager.isFurnitureItem(item)) {
-			plugin.getLogger().info("Not furniture " + item);
 			return;
 		}
 
 		if(!Utils.checkPlacePermission(blockPlaced, player)) {
-			plugin.getLogger().info("No permission");
 			event.setCancelled(true);
 			return;
 		}

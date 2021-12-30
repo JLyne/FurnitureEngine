@@ -159,7 +159,6 @@ public class Furniture {
 
 			if (loc != null) {
 				modeCommand = modeCommand.replace("<location>", loc.getX() + " " + (loc.getY() - 1) + " " + loc.getZ());
-				System.out.println(loc.getX() + " " + loc.getY() + " " + loc.getZ());
 			}
 
 			if (checkCondition("-OnCommand[" + (i++) + "]", player)) {

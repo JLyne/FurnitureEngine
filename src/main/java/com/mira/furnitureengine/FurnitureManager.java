@@ -82,7 +82,6 @@ public class FurnitureManager {
 		//Don't allow overlapping with non-prop furniture, or props of the same type
 		if (getPlacedFurniture(block).values().stream()
 				.anyMatch(existing -> !existing.isProp() || existing.getId().equals(furniture.getId()))) {
-			plugin.getLogger().info("overlapping furniture");
 			return false;
 		}
 
@@ -95,7 +94,6 @@ public class FurnitureManager {
 		Bukkit.getServer().getPluginManager().callEvent(event);
 
 		if (event.isCancelled()) {
-			plugin.getLogger().info("FurniturePlaceEvent cancelled");
 			return false;
 		}
 
@@ -103,15 +101,12 @@ public class FurnitureManager {
 		World world = blockLocation.getWorld();
 
 		if (furniture.getWidth() == 1 && furniture.getHeight() == 1 && furniture.getLength() == 1) { // 1x1x1 Placing
-			plugin.getLogger().info("1x1x1");
 			frame = world.spawn(blockLocation.add(0, 1, 0), ItemFrame.class); // Placing item frame on top of block
 			block.setType(Material.BARRIER);
 		} else if (furniture.getHeight() == 0) { // 0x0x0 Placing
-			plugin.getLogger().info("0x0x0");
 			block.setType(Material.AIR);
 			frame = world.spawn(blockLocation, ItemFrame.class);
 		} else {
-			plugin.getLogger().info("Weird collision");
 			return false;
 		}
 
@@ -155,7 +150,6 @@ public class FurnitureManager {
 		Map<ItemFrame, Furniture> existingFurniture = getPlacedFurniture(blockLocation);
 
 		if (existingFurniture.isEmpty()) {
-			plugin.getLogger().info("No furniture");
 			return true;
 		}
 
@@ -163,7 +157,6 @@ public class FurnitureManager {
 
 		if (block.getType().equals(Material.BARRIER) && existingFurniture.values().stream().allMatch(
 				Furniture::isProp)) {
-			plugin.getLogger().info("No remaining collision requiring furniture");
 			block.breakNaturally();
 			blockLocation.getWorld().playSound(blockLocation, Sound.BLOCK_WOOD_BREAK, 3, 1);
 			return true;
@@ -176,7 +169,6 @@ public class FurnitureManager {
 		Furniture furniture = getPlacedFurnitureType(frame);
 
 		if (furniture == null) {
-			plugin.getLogger().info("Not furniture");
 			return false;
 		}
 
@@ -189,7 +181,6 @@ public class FurnitureManager {
 		}
 
 		if (event.isCancelled()) {
-			plugin.getLogger().info("FurnitureBreakEvent cancelled");
 			return false;
 		}
 
@@ -260,24 +251,19 @@ public class FurnitureManager {
 
 		for (Entity nearbyEntity : nearbyEntities) {
 			if (!(nearbyEntity instanceof ItemFrame frame)) {
-				plugin.getLogger().info("Not item frame");
 				continue;
 			}
 
 			Location frameLocation = frame.getLocation().getBlock().getLocation();
 
 			if (!frameLocation.equals(blockLocation)) {
-				plugin.getLogger().info("Wrong location " + frameLocation + " " + blockLocation);
 				continue;
 			}
 
 			Furniture furniture = getPlacedFurnitureType(frame);
 
 			if (furniture != null) {
-				plugin.getLogger().info(furniture.getId());
 				results.put(frame, furniture);
-			} else {
-				plugin.getLogger().info("Not furniture");
 			}
 		}
 

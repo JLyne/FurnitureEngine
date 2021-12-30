@@ -33,14 +33,12 @@ public class RightClick implements Listener {
 		Player player = event.getPlayer();
 
 		if (event.getAction() != Action.RIGHT_CLICK_BLOCK || event.getHand() != EquipmentSlot.HAND || player.isSneaking()) {
-			plugin.getLogger().info("Wrong action etc " + event.getAction() + event.getHand() + player.isSneaking());
 			return;
 		}
 
 		Block clicked = event.getClickedBlock();
 
 		if (clicked == null || clicked.getType() != Material.BARRIER) {
-			plugin.getLogger().info("Not a barrier " + clicked);
 			return;
 		}
 
@@ -57,7 +55,6 @@ public class RightClick implements Listener {
 		Entity entity = event.getRightClicked();
 
 		if (player.isSneaking() || !(entity instanceof ItemFrame frame)) {
-			plugin.getLogger().info("Not item frame etc " + player.isSneaking() + entity);
 			return;
 		}
 
