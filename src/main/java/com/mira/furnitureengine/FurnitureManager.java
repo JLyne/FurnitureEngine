@@ -172,7 +172,10 @@ public class FurnitureManager {
 			return false;
 		}
 
+		//Get center of below block
 		Location blockLocation = frame.getLocation().getBlock().getLocation();
+		blockLocation.subtract(blockLocation.getX() < 0 ? 0.5 : -0.5, 1, blockLocation.getZ() < 0 ? 0.5 : -0.5);
+
 		FurnitureBreakEvent event = new FurnitureBreakEvent(actor, blockLocation);
 		Bukkit.getServer().getPluginManager().callEvent(event);
 
