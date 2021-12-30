@@ -2,6 +2,7 @@ package com.mira.furnitureengine.commands;
 
 import com.mira.furnitureengine.Furniture;
 import com.mira.furnitureengine.FurnitureManager;
+import com.mira.furnitureengine.RecipeManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
@@ -18,6 +19,7 @@ import org.jetbrains.annotations.NotNull;
 public class CoreCommand implements CommandExecutor {
 	private final FurnitureEngine plugin = FurnitureEngine.getPlugin(FurnitureEngine.class);
 	private final FurnitureManager furnitureManager = plugin.getFurnitureManager();
+	private final RecipeManager recipeManager = plugin.getRecipeManager();
 
 	public boolean onCommand(
 			@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
@@ -100,6 +102,7 @@ public class CoreCommand implements CommandExecutor {
 	public void reloadCommand(CommandSender sender) {
 		plugin.reloadConfig();
 		furnitureManager.loadFurniture();
+		recipeManager.registerRecipes();
 		sender.sendMessage(
 				ChatColor.GOLD + "Furniture" + ChatColor.YELLOW + "Engine" + ChatColor.DARK_GRAY + " � " + ChatColor.GRAY + "Config reloaded!");
 	}

@@ -6,6 +6,7 @@ import com.mira.furnitureengine.handlers.GriefPreventionHandler;
 import com.mira.furnitureengine.handlers.WorldGuardHandler;
 import com.mira.furnitureengine.listeners.FurnitureBreak;
 import com.mira.furnitureengine.listeners.FurniturePlace;
+import com.mira.furnitureengine.listeners.PlayerJoin;
 import com.mira.furnitureengine.listeners.RightClick;
 import com.mira.furnitureengine.tags.FurnitureTag;
 import org.bukkit.NamespacedKey;
@@ -20,11 +21,13 @@ public final class FurnitureEngine extends JavaPlugin {
 	private GriefPreventionHandler griefPreventionHandler;
 
 	private final FurnitureManager furnitureManager;
+	private final RecipeManager recipeManager;
 
 	public FurnitureEngine() {
 		super();
 
 		furnitureManager = new FurnitureManager(this);
+		recipeManager = new RecipeManager(this);
 		furnitureKey = new NamespacedKey(this, "furniture");
 		furnitureTagType = new FurnitureTag(this);
 	}
@@ -33,6 +36,7 @@ public final class FurnitureEngine extends JavaPlugin {
 		loadConfig();
 
 		furnitureManager.loadFurniture();
+		recipeManager.registerRecipes();
 
 		try {
 			worldGuardHandler = new WorldGuardHandler();
@@ -54,6 +58,11 @@ public final class FurnitureEngine extends JavaPlugin {
 		new RightClick(this);
 		new FurniturePlace(this);
 		new FurnitureBreak(this);
+		new PlayerJoin(this);
+	}
+
+	public void onDisable() {
+		recipeManager.unregisterRecipes();
 	}
 
 	public void loadConfig() {
@@ -63,6 +72,10 @@ public final class FurnitureEngine extends JavaPlugin {
 
 	public FurnitureManager getFurnitureManager() {
 		return furnitureManager;
+	}
+
+	public RecipeManager getRecipeManager() {
+		return recipeManager;
 	}
 
 	public WorldGuardHandler getWorldGuardHandler() {
