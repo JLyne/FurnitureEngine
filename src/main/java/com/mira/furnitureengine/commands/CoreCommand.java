@@ -63,7 +63,7 @@ public class CoreCommand implements CommandExecutor {
 				return false;
 			} else {
 				if (sender instanceof Player) {
-					Furniture item = furnitureManager.getFurnitureById(args[2]);
+					Furniture item = furnitureManager.getFurnitureById(args[1]);
 
 					if(item != null) {
 						if (args.length == 3 && Integer.parseInt(args[2]) != 0) {
