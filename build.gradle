@@ -20,19 +20,12 @@ repositories {
     maven {
         url 'https://jitpack.io'
     }
-
-    maven {
-        url 'https://mvn.intellectualsites.com/content/repositories/snapshots/'
-        content {
-            includeModule('com.intellectualsites', 'Pipeline')
-        }
-    }
 }
 
 dependencies {
     compileOnly 'io.papermc.paper:paper-api:1.17.1-R0.1-SNAPSHOT'
-    compileOnly 'com.sk89q.worldguard:worldguard-bukkit:7.0.5'
-    compileOnly 'com.plotsquared:PlotSquared-Core:6.2.1'
+    compileOnly 'com.sk89q.worldguard:worldguard-bukkit:7.0.6'
+    compileOnly("com.plotsquared:PlotSquared-Core:6.5.0")
     compileOnly 'com.github.TechFortress:GriefPrevention:16.17.1'
     compileOnly 'dev.gecko.gsit:GSit:1.0.4' //Local maven
     implementation 'com.github.BeYkeRYkt:LightAPI:5.1.0-Bukkit'

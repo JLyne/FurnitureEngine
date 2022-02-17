@@ -4,7 +4,6 @@ main: com.mira.furnitureengine.FurnitureEngine
 author: Mira
 api-version: 1.17
 description: Allows you to make custom usable furniture.
-load: STARTUP
 depend:
   - GSit
   - GriefPrevention

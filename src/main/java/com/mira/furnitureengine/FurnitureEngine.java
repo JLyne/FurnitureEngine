@@ -13,7 +13,6 @@ import com.mira.furnitureengine.tags.FurnitureTag;
 import org.bukkit.NamespacedKey;
 import org.bukkit.plugin.java.JavaPlugin;
 
-@SuppressWarnings("unused")
 public final class FurnitureEngine extends JavaPlugin {
 	public final NamespacedKey furnitureKey;
 	public final FurnitureTag furnitureTagType;
@@ -34,6 +33,7 @@ public final class FurnitureEngine extends JavaPlugin {
 		furnitureTagType = new FurnitureTag(this);
 	}
 
+	@Override
 	public void onEnable() {
 		loadConfig();
 
