@@ -24,9 +24,9 @@ repositories {
 
 dependencies {
     compileOnly 'io.papermc.paper:paper-api:1.17.1-R0.1-SNAPSHOT'
-    compileOnly 'com.sk89q.worldguard:worldguard-bukkit:7.0.6'
-    compileOnly("com.plotsquared:PlotSquared-Core:6.5.0")
-    compileOnly 'com.github.TechFortress:GriefPrevention:16.17.1'
+    compileOnly 'com.sk89q.worldguard:worldguard-bukkit:7.0.7'
+    compileOnly("com.plotsquared:PlotSquared-Core:6.6.1")
+    compileOnly 'com.github.TechFortress:GriefPrevention:16.18'
     compileOnly 'dev.gecko.gsit:GSit:1.0.4' //Local maven
     implementation 'com.github.BeYkeRYkt:LightAPI:5.1.0-Bukkit'
 }
