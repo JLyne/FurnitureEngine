@@ -12,19 +12,26 @@ depend:
 commands:
   furnitureengine:
    description: Main Plugin command.
-   aliases: [fe]
-   permission: furnitureengine.admin
+   aliases: [fe, furniture]
+   permission: furnitureengine.basic
 
 permissions:
+  furnitureengine.give:
+   default: op
+  furnitureengine.get:
+   default: op
   furnitureengine.blockbreak:
    default: true
   furnitureengine.blockplace:
    default: true
   furnitureengine.admin:
    default: op
+   children:
+     furnitureengine.give: true
+     furnitureengine.get: true
+     furnitureengine.blockbreak: true
+     furnitureengine.blockplace: true
   furnitureengine.*:
    default: op
    children:
      furnitureengine.admin: true
-     furnitureengine.blockbreak: true
-     furnitureengine.blockplace: true

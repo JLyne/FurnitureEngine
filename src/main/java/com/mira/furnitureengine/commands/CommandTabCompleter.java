@@ -24,70 +24,86 @@ public class CommandTabCompleter implements TabCompleter {
 
 		if (args.length == 1) {
 			List<String> autoCompletion = new ArrayList<>();
-			autoCompletion.add("reload");
-			autoCompletion.add("give");
-			autoCompletion.add("remove");
-			autoCompletion.add("get");
 
-			return autoCompletion;
-		}
+			if (sender.hasPermission("furnitureengine.admin")) {
+				autoCompletion.add("reload");
+			}
 
-		if (args.length == 2 && args[0].equals("give")) {
-			List<String> autoCompletion = new ArrayList<>();
+			if (sender.hasPermission("furnitureengine.give")) {
+				autoCompletion.add("give");
+			}
 
-			for (Player p : Bukkit.getOnlinePlayers()) {
-				autoCompletion.add(p.getName());
+			if (sender.hasPermission("furnitureengine.remove")) {
+				autoCompletion.add("remove");
+			}
+
+			if (sender.hasPermission("furnitureengine.get")) {
+				autoCompletion.add("get");
 			}
 
 			return autoCompletion;
 		}
 
-		if (args.length == 3 && args[0].equals("give")) {
-			return furnitureManager.getAllFurniture().keySet().stream()
-					.filter(id -> id.startsWith(args[2]))
-					.collect(Collectors.toList());
+		if(args[0].equals("give") && sender.hasPermission("furnitureengine.give")) {
+			switch (args.length) {
+				case 2: {
+					List<String> autoCompletion = new ArrayList<>();
+
+					for (Player p : Bukkit.getOnlinePlayers()) {
+						autoCompletion.add(p.getName());
+					}
+
+					return autoCompletion;
+				}
+				case 3:
+					return furnitureManager.getAllFurniture().keySet().stream()
+							.filter(id -> id.startsWith(args[2]))
+							.collect(Collectors.toList());
+				case 4: {
+					List<String> autoCompletion = new ArrayList<>();
+					autoCompletion.add(Integer.toString(1));
+					return autoCompletion;
+				}
+			}
 		}
 
-		if (args.length == 4 && args[0].equals("give")) {
-			List<String> autoCompletion = new ArrayList<>();
-			autoCompletion.add(Integer.toString(1));
-			return autoCompletion;
+		if(args[0].equals("get") && sender.hasPermission("furnitureengine.get")) {
+			switch (args.length) {
+				case 2:
+					return furnitureManager.getAllFurniture().keySet().stream()
+							.filter(id -> id.startsWith(args[1]))
+							.collect(Collectors.toList());
+				case 3:
+					List<String> autoCompletion = new ArrayList<>();
+					autoCompletion.add(Integer.toString(1));
+					return autoCompletion;
+			}
 		}
 
-		if (args.length == 2 && args[0].equals("get")) {
-			return furnitureManager.getAllFurniture().keySet().stream()
-					.filter(id -> id.startsWith(args[1]))
-					.collect(Collectors.toList());
-		}
+		if(args[0].equals("remove") && sender.hasPermission("furnitureengine.remove")) {
+			switch (args.length) {
+				case 2 -> {
+					List<String> autoCompletion = new ArrayList<>();
 
-		if (args.length == 3 && args[0].equals("get")) {
-			List<String> autoCompletion = new ArrayList<>();
-			autoCompletion.add(Integer.toString(1));
-			return autoCompletion;
-		}
+					autoCompletion.add("0");
 
-		if (args.length == 2 && args[0].equals("remove")) {
-			List<String> autoCompletion = new ArrayList<>();
+					return autoCompletion;
+				}
+				case 3 -> {
+					List<String> autoCompletion = new ArrayList<>();
 
-			autoCompletion.add("0");
+					autoCompletion.add("0");
 
-			return autoCompletion;
-		}
+					return autoCompletion;
+				}
+				case 4 -> {
+					List<String> autoCompletion = new ArrayList<>();
 
-		if (args.length == 3 && args[0].equals("remove")) {
-			List<String> autoCompletion = new ArrayList<>();
+					autoCompletion.add("0");
 
-			autoCompletion.add("0");
-
-			return autoCompletion;
-		}
-
-		if (args.length == 4 && args[0].equals("remove")) {
-			List<String> autoCompletion = new ArrayList<>();
-
-			autoCompletion.add("0");
-
-			return autoCompletion;
+					return autoCompletion;
+				}
+			}
 		}
 
 		return null;

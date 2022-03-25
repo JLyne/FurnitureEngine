@@ -30,12 +30,12 @@ public class CoreCommand implements CommandExecutor {
 			return false;
 		}
 
-		if (args[0].equals("reload")) {
+		if (args[0].equals("reload")  && sender.hasPermission("furnitureengine.admin")) {
 			this.reloadCommand(sender);
 			return true;
 		}
 
-		if (args[0].equals("give")) {
+		if (args[0].equals("give") && sender.hasPermission("furnitureengine.give")) {
 			if (args.length == 1) {
 				sender.sendMessage(
 						ChatColor.GOLD + "Furniture" + ChatColor.YELLOW + "Engine" + ChatColor.DARK_GRAY + " � " + ChatColor.RED + "Incorrect Command usage!");
@@ -56,7 +56,7 @@ public class CoreCommand implements CommandExecutor {
 			return true;
 		}
 
-		if (args[0].equals("get")) {
+		if (args[0].equals("get") && sender.hasPermission("furnitureengine.get")) {
 			if (args.length == 1) {
 				sender.sendMessage(
 						ChatColor.GOLD + "Furniture" + ChatColor.YELLOW + "Engine" + ChatColor.DARK_GRAY + " � " + ChatColor.RED + "Incorrect Command usage!");
@@ -78,7 +78,7 @@ public class CoreCommand implements CommandExecutor {
 			return true;
 		}
 
-		if (args[0].equals("remove")) {
+		if (args[0].equals("remove") && sender.hasPermission("furnitureengine.remove")) {
 			if (sender instanceof Player p) {
 				if (args.length < 4) {
 					sender.sendMessage(
