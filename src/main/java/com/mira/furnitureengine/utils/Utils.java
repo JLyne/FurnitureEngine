@@ -1,6 +1,9 @@
 package com.mira.furnitureengine.utils;
 
 import com.mira.furnitureengine.FurnitureEngine;
+import com.mira.furnitureengine.handlers.GriefPreventionHandler;
+import com.mira.furnitureengine.handlers.PlotSquaredHandler;
+import com.mira.furnitureengine.handlers.WorldGuardHandler;
 import org.bukkit.Rotation;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -56,20 +59,30 @@ public class Utils {
 	}
 
 	public static boolean checkPlacePermission(Block block, Player player) {
+		WorldGuardHandler worldGuardHandler = plugin.getWorldGuardHandler();
+		GriefPreventionHandler griefPreventionHandler = plugin.getGriefPreventionHandler();
+		PlotSquaredHandler plotSquaredHandler = plugin.getPlotSquaredHandler();
+
 		boolean placePermission = !plugin.getConfig().getBoolean("Options.check-place-permissions")
 				|| player.hasPermission("furnitureengine.blockplace");
 
-		return placePermission
-				&& plugin.getWorldGuardHandler().checkPermission(block, player)
-				&& plugin.getGriefPreventionHandler().checkPermission(block, player);
+		return placePermission &&
+				(worldGuardHandler == null || worldGuardHandler.checkPermission(block, player)) &&
+				(griefPreventionHandler == null || griefPreventionHandler.checkPermission(block, player)) &&
+				(plotSquaredHandler == null || plotSquaredHandler.checkBuildPermission(block, player));
 	}
 
 	public static boolean checkBreakPermissions(Block block, Player player) {
-		boolean placePermission = !plugin.getConfig().getBoolean("Options.check-break-permissions")
+		WorldGuardHandler worldGuardHandler = plugin.getWorldGuardHandler();
+		GriefPreventionHandler griefPreventionHandler = plugin.getGriefPreventionHandler();
+		PlotSquaredHandler plotSquaredHandler = plugin.getPlotSquaredHandler();
+
+		boolean breakPermission = !plugin.getConfig().getBoolean("Options.check-break-permissions")
 				|| player.hasPermission("furnitureengine.blockbreak");
 
-		return placePermission
-				&& plugin.getWorldGuardHandler().checkPermission(block, player)
-				&& plugin.getGriefPreventionHandler().checkPermission(block, player);
+		return breakPermission &&
+				(worldGuardHandler == null || worldGuardHandler.checkPermission(block, player)) &&
+				(griefPreventionHandler == null || griefPreventionHandler.checkPermission(block, player)) &&
+				(plotSquaredHandler == null || plotSquaredHandler.checkBreakPermission(block, player));
 	}
 }
