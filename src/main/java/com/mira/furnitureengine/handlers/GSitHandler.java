@@ -28,6 +28,10 @@ public class GSitHandler {
 	}
 
 	public void removeSeats(Block block) {
+		if (!gSitEnabled) {
+			return;
+		}
+
 		GSitAPI.getSeats(block).forEach(seat -> GSitAPI.removeSeat(seat, GetUpReason.BREAK));
 	}
 }
