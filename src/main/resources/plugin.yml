@@ -2,11 +2,11 @@ name: FurnitureEngine
 version: @project.version@
 main: com.mira.furnitureengine.FurnitureEngine
 author: Mira
-api-version: 1.17
+api-version: 1.19
 description: Allows you to make custom usable furniture.
-depend:
-  - WorldGuard
+depend: []
 softdepend:
+  - WorldGuard
   - PlotSquared
   - GriefPrevention
   - GSit
