@@ -32,6 +32,6 @@ public class GSitHandler {
 			return;
 		}
 
-		GSitAPI.getSeats(block).forEach(seat -> GSitAPI.removeSeat(seat, GetUpReason.BREAK));
+		GSitAPI.getSeats(block).forEach(seat -> GSitAPI.removeSeat(seat.getEntity(), GetUpReason.BREAK));
 	}
 }
