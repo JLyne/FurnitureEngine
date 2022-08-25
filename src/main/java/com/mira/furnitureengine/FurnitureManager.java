@@ -306,7 +306,11 @@ public class FurnitureManager {
 	}
 
 	public boolean isFurnitureItem(ItemStack item) {
-		return item != null && item.getItemMeta().getPersistentDataContainer()
+		return item != null && isFurnitureItem(item.getItemMeta());
+	}
+
+	public boolean isFurnitureItem(ItemMeta meta) {
+		return meta != null && meta.getPersistentDataContainer()
 				.has(plugin.furnitureKey, plugin.furnitureTagType);
 	}
 

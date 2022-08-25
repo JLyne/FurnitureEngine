@@ -2,6 +2,7 @@ package com.mira.furnitureengine;
 
 import com.mira.furnitureengine.commands.CommandTabCompleter;
 import com.mira.furnitureengine.commands.CoreCommand;
+import com.mira.furnitureengine.creativeitemfilter.CreativeItemFilterHandler;
 import com.mira.furnitureengine.handlers.GSitHandler;
 import com.mira.furnitureengine.handlers.GriefPreventionHandler;
 import com.mira.furnitureengine.handlers.PlotSquaredHandler;
@@ -22,6 +23,7 @@ public final class FurnitureEngine extends JavaPlugin {
 	private GriefPreventionHandler griefPreventionHandler;
 	private PlotSquaredHandler plotSquaredHandler;
 	private GSitHandler gSitHandler;
+	private CreativeItemFilterHandler creativeItemFilterHandler;
 
 	private final FurnitureManager furnitureManager;
 	private final RecipeManager recipeManager;
@@ -58,6 +60,12 @@ public final class FurnitureEngine extends JavaPlugin {
 			plotSquaredHandler = new PlotSquaredHandler();
 		} catch (NoClassDefFoundError e) {
 			getLogger().warning("PlotSquared not found");
+		}
+
+		try {
+			creativeItemFilterHandler = new CreativeItemFilterHandler(this);
+		} catch (NoClassDefFoundError e) {
+			getLogger().warning("CreativeItemFilter not found");
 		}
 
 		gSitHandler = new GSitHandler();

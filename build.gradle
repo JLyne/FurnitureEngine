@@ -10,6 +10,10 @@ repositories {
     mavenCentral()
 
     maven {
+        url 'https://repo.not-null.co.uk/snapshots/'
+    }
+
+    maven {
         url 'https://papermc.io/repo/repository/maven-public/'
     }
 
@@ -30,6 +34,7 @@ dependencies {
     compileOnly("com.plotsquared:PlotSquared-Bukkit")
     compileOnly 'com.github.TechFortress:GriefPrevention:16.18'
     compileOnly 'com.github.Gecolay:GSit:1.2.1' //Local maven
+    compileOnly 'org.hurricanegames:CreativeItemFilter:3.0-SNAPSHOT' //Local maven
     implementation 'com.github.BeYkeRYkt:LightAPI:5.1.0-Bukkit'
 }
 
