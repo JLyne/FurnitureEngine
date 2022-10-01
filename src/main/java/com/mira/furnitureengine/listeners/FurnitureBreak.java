@@ -110,6 +110,7 @@ public class FurnitureBreak implements Listener {
 		}
 
 		Block block = event.getEntity().getLocation().getBlock().getRelative(BlockFace.DOWN);
-		furnitureManager.updateCollision(block);
+		plugin.getServer().getScheduler()
+				.scheduleSyncDelayedTask(plugin, () -> furnitureManager.updateCollision(block), 1);
 	}
 }
