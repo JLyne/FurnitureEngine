@@ -110,11 +110,8 @@ public class FurnitureBreak implements Listener {
 		}
 
 		if(!event.getEntity().isDead()) {
-			plugin.getLogger().info("Ignoring chunk unload etc " + event.getEntity().getLocation());
 			return;
 		}
-
-		plugin.getLogger().info("Furniture removed from world at " + event.getEntity().getLocation());
 
 		Block block = event.getEntity().getLocation().getBlock().getRelative(BlockFace.DOWN);
 		plugin.getServer().getScheduler()
