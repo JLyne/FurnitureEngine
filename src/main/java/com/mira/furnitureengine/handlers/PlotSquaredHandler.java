@@ -12,7 +12,6 @@ import com.plotsquared.core.plot.flag.implementations.BreakFlag;
 import com.plotsquared.core.plot.flag.implementations.DoneFlag;
 import com.plotsquared.core.plot.flag.implementations.PlaceFlag;
 import com.plotsquared.core.plot.flag.types.BlockTypeWrapper;
-import com.plotsquared.core.util.Permissions;
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldedit.world.block.BlockType;
 import org.bukkit.Bukkit;
@@ -35,6 +34,8 @@ public class PlotSquaredHandler {
 		plotSquared = (BukkitPlatform) Bukkit.getPluginManager().getPlugin("PlotSquared");
 	}
 
+	// Adapted from Plotsquared's BlockEventListener.blockCreate method,
+	// because they don't have an api for build permissions (why?)
 	public boolean checkBuildPermission(Block block, Player player) {
 		if (!psEnabled) {
 			return true;
@@ -51,8 +52,7 @@ public class PlotSquaredHandler {
 		Plot plot = area.getPlot(location);
 		if (plot != null) {
 			if ((location.getY() >= area.getMaxBuildHeight() || location.getY() < area
-					.getMinBuildHeight()) && !Permissions
-					.hasPermission(pp, Permission.PERMISSION_ADMIN_BUILD_HEIGHT_LIMIT)) {
+					.getMinBuildHeight()) && !pp.hasPermission(Permission.PERMISSION_ADMIN_BUILD_HEIGHT_LIMIT)) {
 				return false;
 			}
 
@@ -68,15 +68,17 @@ public class PlotSquaredHandler {
 					}
 				}
 
-				return Permissions.hasPermission(pp, Permission.PERMISSION_ADMIN_BUILD_OTHER);
+				return pp.hasPermission(Permission.PERMISSION_ADMIN_BUILD_OTHER);
 			} else if (Settings.Done.RESTRICT_BUILDING && DoneFlag.isDone(plot)) {
-				return Permissions.hasPermission(pp, Permission.PERMISSION_ADMIN_BUILD_OTHER);
+				return pp.hasPermission(Permission.PERMISSION_ADMIN_BUILD_OTHER);
 			}
 		} else return false; //Entities get removed on roads so don't allow
 
 		return true;
 	}
 
+	// Adapted from Plotsquared's BlockEventListener.blockDestroy method,
+	// because they don't have an api for build permissions (why?)
 	public boolean checkBreakPermission(Block block, Player player) {
 		if (!psEnabled) {
 			return true;
@@ -95,17 +97,15 @@ public class PlotSquaredHandler {
             BukkitPlayer plotPlayer = BukkitUtil.adapt(player);
             // == rather than <= as we only care about the "ground level" not being destroyed
             if (block.getY() == area.getMinGenHeight()) {
-                if (!Permissions
-                        .hasPermission(plotPlayer, Permission.PERMISSION_ADMIN_DESTROY_GROUNDLEVEL)) {
+                if (!plotPlayer.hasPermission(Permission.PERMISSION_ADMIN_DESTROY_GROUNDLEVEL)) {
                     return false;
                 }
             } else if ((location.getY() >= area.getMaxBuildHeight() || location.getY() < area
-                    .getMinBuildHeight()) && !Permissions
-                    .hasPermission(plotPlayer, Permission.PERMISSION_ADMIN_BUILD_HEIGHT_LIMIT)) {
+                    .getMinBuildHeight()) && !plotPlayer.hasPermission(Permission.PERMISSION_ADMIN_BUILD_HEIGHT_LIMIT)) {
                 return false;
             }
             if (!plot.hasOwner()) {
-				return Permissions.hasPermission(plotPlayer, Permission.PERMISSION_ADMIN_DESTROY_UNOWNED, true);
+				return plotPlayer.hasPermission(Permission.PERMISSION_ADMIN_DESTROY_UNOWNED, true);
 			}
             if (!plot.isAdded(plotPlayer.getUUID())) {
                 List<BlockTypeWrapper> destroy = plot.getFlag(BreakFlag.class);
@@ -117,15 +117,15 @@ public class PlotSquaredHandler {
                     }
                 }
 
-				return Permissions.hasPermission(plotPlayer, Permission.PERMISSION_ADMIN_DESTROY_OTHER);
+				return plotPlayer.hasPermission(Permission.PERMISSION_ADMIN_DESTROY_OTHER);
 			} else if (Settings.Done.RESTRICT_BUILDING && DoneFlag.isDone(plot)) {
-				return Permissions.hasPermission(plotPlayer, Permission.PERMISSION_ADMIN_BUILD_OTHER);
+				return plotPlayer.hasPermission(Permission.PERMISSION_ADMIN_BUILD_OTHER);
             }
 
             return true;
         }
 
         BukkitPlayer pp = BukkitUtil.adapt(player);
-		return Permissions.hasPermission(pp, Permission.PERMISSION_ADMIN_DESTROY_ROAD);
+		return pp.hasPermission(Permission.PERMISSION_ADMIN_DESTROY_ROAD);
 	}
 }
