@@ -37,8 +37,8 @@ dependencies {
     implementation 'com.github.BeYkeRYkt:LightAPI:5.3.0-Bukkit'
 }
 
-group = 'com.mira.furnitureengine'
-version = '1.6.3-SNAPSHOT'
+group = 'uk.co.notnull'
+version = '1.0'
 
 java.sourceCompatibility = JavaVersion.VERSION_17
 java.targetCompatibility = JavaVersion.VERSION_17
