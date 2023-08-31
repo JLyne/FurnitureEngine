@@ -23,6 +23,10 @@ public class GSitHandler {
 		}
 
 		if(GSitAPI.getSeats(seat).size() == 0 && GSitAPI.canPlayerSit(player)) {
+			if(GSitAPI.isPosing(player)) {
+				GSitAPI.removePose(player, GetUpReason.ACTION, true);
+			}
+
 			GSitAPI.createSeat(seat, player, true, 0, -0.4 + offset, 0, 0f, true);
 		}
 	}
