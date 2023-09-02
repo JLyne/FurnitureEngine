@@ -22,11 +22,7 @@ public class GSitHandler {
 			return;
 		}
 
-		if(GSitAPI.getSeats(seat).size() == 0 && GSitAPI.canPlayerSit(player)) {
-			if(GSitAPI.isPosing(player)) {
-				GSitAPI.removePose(player, GetUpReason.ACTION, true);
-			}
-
+		if(GSitAPI.getSeats(seat).size() == 0 && GSitAPI.canSit(player) && !GSitAPI.isSitting(player) && !GSitAPI.isPosing(player)) {
 			GSitAPI.createSeat(seat, player, true, 0, -0.4 + offset, 0, 0f, true);
 		}
 	}
@@ -36,6 +32,6 @@ public class GSitHandler {
 			return;
 		}
 
-		GSitAPI.getSeats(block).forEach(seat -> GSitAPI.removeSeat(seat.getEntity(), GetUpReason.BREAK));
+		GSitAPI.getSeats(block).forEach(seat -> GSitAPI.removeSeat(seat.getEntity(), GetUpReason.BREAK, true));
 	}
 }
