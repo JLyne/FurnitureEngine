@@ -26,13 +26,13 @@ repositories {
 }
 
 dependencies {
-    compileOnly 'io.papermc.paper:paper-api:1.19.4-R0.1-SNAPSHOT'
-    compileOnly 'com.sk89q.worldguard:worldguard-bukkit:7.0.8'
+    compileOnly 'io.papermc.paper:paper-api:1.20.6-R0.1-SNAPSHOT'
+    compileOnly 'com.sk89q.worldguard:worldguard-bukkit:7.0.9'
     implementation(platform("com.intellectualsites.bom:bom-1.18.x:1.28"))
     compileOnly("com.plotsquared:PlotSquared-Core")
     compileOnly("com.plotsquared:PlotSquared-Bukkit")
     compileOnly 'com.github.TechFortress:GriefPrevention:16.18'
-    compileOnly 'com.github.Gecolay.GSit:core:1.4.5'
+    compileOnly 'com.github.Gecolay.GSit:core:1.9.5'
     compileOnly 'org.hurricanegames:CreativeItemFilter:3.0-SNAPSHOT' //Local maven
     implementation 'com.github.BeYkeRYkt:LightAPI:5.3.0-Bukkit'
 }
