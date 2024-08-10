@@ -76,6 +76,7 @@ public class ItemUtils {
 			meta.lore(loresList);
 		}
 
+		item.setAmount(Math.min(item.getMaxStackSize(), amount));
 		item.setItemMeta(meta);
 
 		return item;

@@ -24,6 +24,9 @@ dependencies:
     CreativeItemFilter:
       load: AFTER
       required: false
+    CustomItems:
+      load: AFTER
+      required: false
 
 permissions:
   furnitureengine.give:

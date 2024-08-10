@@ -2,6 +2,7 @@ package com.mira.furnitureengine;
 
 import com.mira.furnitureengine.commands.CoreCommand;
 import com.mira.furnitureengine.creativeitemfilter.CreativeItemFilterHandler;
+import com.mira.furnitureengine.customitems.CustomItemsHandler;
 import com.mira.furnitureengine.handlers.GSitHandler;
 import com.mira.furnitureengine.handlers.GriefPreventionHandler;
 import com.mira.furnitureengine.handlers.PlotSquaredHandler;
@@ -31,6 +32,7 @@ public final class FurnitureEngine extends JavaPlugin implements Listener {
 	private PlotSquaredHandler plotSquaredHandler;
 	private GSitHandler gSitHandler;
 	private CreativeItemFilterHandler creativeItemFilterHandler;
+	private CustomItemsHandler customItemsHandler;
 
 	private final FurnitureManager furnitureManager;
 	private final RecipeManager recipeManager;
@@ -90,6 +92,10 @@ public final class FurnitureEngine extends JavaPlugin implements Listener {
 				getLogger().info("Initialising GSit handler");
 				gSitHandler = new GSitHandler();
 			}
+			case "CustomItems" -> {
+				getLogger().info("Registering CustomItems provider");
+				customItemsHandler = new CustomItemsHandler(this);
+			}
 		}
 	}
 
@@ -124,6 +130,12 @@ public final class FurnitureEngine extends JavaPlugin implements Listener {
 				if (gSitHandler != null) {
 					getLogger().info("Disabling GSit handler");
 					gSitHandler = null;
+				}
+			}
+			case "CustomItems" -> {
+				if (customItemsHandler != null) {
+					getLogger().info("Disabling CustomItems provider");
+					customItemsHandler = null;
 				}
 			}
 		}
