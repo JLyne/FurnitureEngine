@@ -13,9 +13,15 @@ import com.mira.furnitureengine.listeners.PlayerJoin;
 import com.mira.furnitureengine.listeners.RightClick;
 import com.mira.furnitureengine.tags.FurnitureTag;
 import org.bukkit.NamespacedKey;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.server.PluginDisableEvent;
+import org.bukkit.event.server.PluginEnableEvent;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public final class FurnitureEngine extends JavaPlugin {
+@SuppressWarnings("UnstableApiUsage")
+public final class FurnitureEngine extends JavaPlugin implements Listener {
 	public final NamespacedKey furnitureKey;
 	public final FurnitureTag furnitureTagType;
 
@@ -44,39 +50,11 @@ public final class FurnitureEngine extends JavaPlugin {
 		furnitureManager.loadFurniture();
 		recipeManager.registerRecipes();
 
-		try {
-			worldGuardHandler = new WorldGuardHandler();
-		} catch (NoClassDefFoundError e) {
-			getLogger().warning("WorldGuard not found");
-		}
-
-		try {
-			griefPreventionHandler = new GriefPreventionHandler();
-		} catch (NoClassDefFoundError e) {
-			getLogger().warning("GriefPrevention not found");
-		}
-
-		try {
-			plotSquaredHandler = new PlotSquaredHandler();
-		} catch (NoClassDefFoundError e) {
-			getLogger().warning("PlotSquared not found");
-		}
-
-		try {
-			creativeItemFilterHandler = new CreativeItemFilterHandler(this);
-		} catch (NoClassDefFoundError e) {
-			getLogger().warning("CreativeItemFilter not found");
-		}
-
-		gSitHandler = new GSitHandler();
-
-		if(!gSitHandler.isgSitEnabled()) {
-			getLogger().warning("GSit not found");
-		}
-
 		// default
 		getCommand("furnitureengine").setExecutor(new CoreCommand());
 		getCommand("furnitureengine").setTabCompleter(new CommandTabCompleter());
+
+		getServer().getPluginManager().registerEvents(this, this);
 
 		// Event Handlers
 		new RightClick(this);
@@ -87,6 +65,68 @@ public final class FurnitureEngine extends JavaPlugin {
 
 	public void onDisable() {
 		recipeManager.unregisterRecipes();
+	}
+
+	@EventHandler
+	public void onPluginEnable(PluginEnableEvent event) {
+		switch (event.getPlugin().getName()) {
+			case "GriefPrevention" -> {
+				getLogger().info("Initialising GriefPrevention handler");
+				griefPreventionHandler = new GriefPreventionHandler();
+			}
+			case "WorldGuard" -> {
+				getLogger().info("Initialising WorldGuard handler");
+				worldGuardHandler = new WorldGuardHandler();
+			}
+			case "PlotSquared" -> {
+				getLogger().info("Initialising PlotSquared handler");
+				plotSquaredHandler = new PlotSquaredHandler();
+			}
+			case "CreativeItemFilter" -> {
+				getLogger().info("Initialising CreativeItemFilter handler");
+				creativeItemFilterHandler = new CreativeItemFilterHandler(this);
+			}
+			case "GSit" -> {
+				getLogger().info("Initialising GSit handler");
+				gSitHandler = new GSitHandler();
+			}
+		}
+	}
+
+	@EventHandler
+	public void onPluginDisable(PluginDisableEvent event) {
+		switch (event.getPlugin().getName()) {
+			case "GriefPrevention" -> {
+				if (griefPreventionHandler != null) {
+					getLogger().info("Disabling GriefPrevention handler");
+					griefPreventionHandler = null;
+				}
+			}
+			case "WorldGuard" -> {
+				if (worldGuardHandler != null) {
+					getLogger().info("Disabling WorldGuard handler");
+					worldGuardHandler = null;
+				}
+			}
+			case "PlotSquared" -> {
+				if (plotSquaredHandler != null) {
+					getLogger().info("Disabling PlotSquared handler");
+					plotSquaredHandler = null;
+				}
+			}
+			case "CreativeItemFilter" -> {
+				if (creativeItemFilterHandler != null) {
+					getLogger().info("Disabling CreativeItemFilter handler");
+					creativeItemFilterHandler = null;
+				}
+			}
+			case "GSit" -> {
+				if (gSitHandler != null) {
+					getLogger().info("Disabling GSit handler");
+					gSitHandler = null;
+				}
+			}
+		}
 	}
 
 	public void loadConfig() {
