@@ -1,6 +1,5 @@
 package com.mira.furnitureengine;
 
-import com.mira.furnitureengine.commands.CommandTabCompleter;
 import com.mira.furnitureengine.commands.CoreCommand;
 import com.mira.furnitureengine.creativeitemfilter.CreativeItemFilterHandler;
 import com.mira.furnitureengine.handlers.GSitHandler;
@@ -12,6 +11,8 @@ import com.mira.furnitureengine.listeners.FurniturePlace;
 import com.mira.furnitureengine.listeners.PlayerJoin;
 import com.mira.furnitureengine.listeners.RightClick;
 import com.mira.furnitureengine.tags.FurnitureTag;
+import io.papermc.paper.plugin.lifecycle.event.LifecycleEventManager;
+import io.papermc.paper.plugin.lifecycle.event.types.LifecycleEvents;
 import org.bukkit.NamespacedKey;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -50,9 +51,8 @@ public final class FurnitureEngine extends JavaPlugin implements Listener {
 		furnitureManager.loadFurniture();
 		recipeManager.registerRecipes();
 
-		// default
-		getCommand("furnitureengine").setExecutor(new CoreCommand());
-		getCommand("furnitureengine").setTabCompleter(new CommandTabCompleter());
+		LifecycleEventManager<Plugin> manager = getLifecycleManager();
+        manager.registerEventHandler(LifecycleEvents.COMMANDS, event -> new CoreCommand(event.registrar()));
 
 		getServer().getPluginManager().registerEvents(this, this);
 

@@ -3,107 +3,132 @@ package com.mira.furnitureengine.commands;
 import com.mira.furnitureengine.Furniture;
 import com.mira.furnitureengine.FurnitureManager;
 import com.mira.furnitureengine.RecipeManager;
-import org.bukkit.Bukkit;
+import com.mojang.brigadier.Command;
+import com.mojang.brigadier.context.CommandContext;
+import com.mojang.brigadier.exceptions.CommandSyntaxException;
+import com.mojang.brigadier.tree.ArgumentCommandNode;
+import com.mojang.brigadier.tree.LiteralCommandNode;
+import io.papermc.paper.command.brigadier.CommandSourceStack;
+import io.papermc.paper.command.brigadier.Commands;
+import io.papermc.paper.command.brigadier.argument.resolvers.selector.PlayerSelectorArgumentResolver;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Location;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import com.mira.furnitureengine.FurnitureEngine;
 import com.mira.furnitureengine.utils.*;
 
-import net.md_5.bungee.api.ChatColor;
-import org.jetbrains.annotations.NotNull;
+import java.util.List;
 
-public class CoreCommand implements CommandExecutor {
+import static com.mojang.brigadier.arguments.IntegerArgumentType.integer;
+import static io.papermc.paper.command.brigadier.Commands.argument;
+import static io.papermc.paper.command.brigadier.Commands.literal;
+import static io.papermc.paper.command.brigadier.argument.ArgumentTypes.blockPosition;
+import static io.papermc.paper.command.brigadier.argument.ArgumentTypes.players;
+
+@SuppressWarnings("UnstableApiUsage")
+public final class CoreCommand {
 	private final FurnitureEngine plugin = FurnitureEngine.getPlugin(FurnitureEngine.class);
 	private final FurnitureManager furnitureManager = plugin.getFurnitureManager();
 	private final RecipeManager recipeManager = plugin.getRecipeManager();
 
-	public boolean onCommand(
-			@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
+	public CoreCommand(Commands commands) {
+		FurnitureArgumentType furnitureArgumentType = new FurnitureArgumentType(plugin);
 
-		if (args.length == 0) {
-			sender.sendMessage(
-					ChatColor.GOLD + "Furniture" + ChatColor.YELLOW + "Engine" + ChatColor.DARK_GRAY + " � " + ChatColor.RED + "Incorrect Command usage!");
-			return false;
-		}
+		LiteralCommandNode<CommandSourceStack> reloadCommand = literal("reload")
+				.requires(source -> source.getSender().hasPermission("furnitureengine.admin"))
+				.executes(this::onReload)
+				.build();
 
-		if (args[0].equals("reload")  && sender.hasPermission("furnitureengine.admin")) {
-			this.reloadCommand(sender);
-			return true;
-		}
+		LiteralCommandNode<CommandSourceStack> giveCommand = literal("give")
+				.requires(source -> source.getSender().hasPermission("furnitureengine.give"))
+				.then(argument("player", players())
+							  .then(argument("furniture", furnitureArgumentType)
+											.executes(ctx -> onGive(ctx, 1))
+											.then(argument("amount", integer(0, 6400))
+														  .executes(ctx -> {
+															  int amount = ctx.getArgument("amount", int.class);
+															  return onGive(ctx, amount);
+														  }))))
+				.build();
 
-		if (args[0].equals("give") && sender.hasPermission("furnitureengine.give")) {
-			if (args.length == 1) {
-				sender.sendMessage(
-						ChatColor.GOLD + "Furniture" + ChatColor.YELLOW + "Engine" + ChatColor.DARK_GRAY + " � " + ChatColor.RED + "Incorrect Command usage!");
-				return false;
-			} else {
-				Furniture item = furnitureManager.getFurnitureById(args[2]);
-				Player player = Bukkit.getPlayer(args[1]);
+		ArgumentCommandNode<CommandSourceStack, Furniture> getStuff = argument("furniture", furnitureArgumentType)
+				.executes(this::onGet)
+				.build();
 
-				if(item != null) {
-					if (args.length == 4 && Integer.parseInt(args[3]) != 0) {
-						ItemUtils.giveItem(player, item, Integer.parseInt(args[3]), null);
-					} else {
-						ItemUtils.giveItem(player, item, 1, null);
-					}
-				}
-			}
+		LiteralCommandNode<CommandSourceStack> getCommand = literal("get")
+				.requires(source -> source.getSender().hasPermission("furnitureengine.get"))
+				.then(getStuff)
+				.build();
 
-			return true;
-		}
+		LiteralCommandNode<CommandSourceStack> removeCommand = literal("remove")
+				.requires(source -> source.getSender().hasPermission("furnitureengine.remove"))
+				.then(argument("location", blockPosition())
+							  .executes(this::onRemove)).build();
 
-		if (args[0].equals("get") && sender.hasPermission("furnitureengine.get")) {
-			if (args.length == 1) {
-				sender.sendMessage(
-						ChatColor.GOLD + "Furniture" + ChatColor.YELLOW + "Engine" + ChatColor.DARK_GRAY + " � " + ChatColor.RED + "Incorrect Command usage!");
-				return false;
-			} else {
-				if (sender instanceof Player) {
-					Furniture item = furnitureManager.getFurnitureById(args[1]);
+		LiteralCommandNode<CommandSourceStack> topCommand = literal("furnitureengine")
+				.then(reloadCommand)
+				.then(giveCommand)
+				.then(getCommand)
+				.then(removeCommand)
+				.build();
 
-					if(item != null) {
-						if (args.length == 3 && Integer.parseInt(args[2]) != 0) {
-							ItemUtils.giveItem((Player) sender, item, Integer.parseInt(args[2]), null);
-						} else {
-							ItemUtils.giveItem((Player) sender, item, 1, null);
-						}
-					}
-				}
-			}
+		commands.register(topCommand, "Main command for FurnitureEngine");
 
-			return true;
-		}
-
-		if (args[0].equals("remove") && sender.hasPermission("furnitureengine.remove")) {
-			if (sender instanceof Player p) {
-				if (args.length < 4) {
-					sender.sendMessage(
-							ChatColor.GOLD + "Furniture" + ChatColor.YELLOW + "Engine" + ChatColor.DARK_GRAY + " � " + ChatColor.RED + "Incorrect Command usage!");
-					return false;
-				} else {
-					furnitureManager.breakFurniture(
-							new Location(p.getLocation().getWorld(), Double.parseDouble(args[1]),
-										 Double.parseDouble(args[2]), Double.parseDouble(args[3])), p);
-				}
-
-				return true;
-			}
-		}
-
-		return false;
+		commands.register(literal("furniture")
+								  .requires(source -> source.getSender().hasPermission("furnitureengine.get"))
+								  .then(getStuff)
+								  .build(), "Get an item of furniture");
 	}
 
-	// Commands
+	public int onGive(CommandContext<CommandSourceStack> ctx, int amount) throws CommandSyntaxException {
+		Furniture furniture = ctx.getArgument("furniture", Furniture.class);
+		List<Player> players = ctx.getArgument("players", PlayerSelectorArgumentResolver.class).resolve(ctx.getSource());
 
-	public void reloadCommand(CommandSender sender) {
+		for(Player player: players) {
+			ItemUtils.giveItem(player, furniture, amount, null);
+			player.sendMessage(
+					Component.text(
+							"Given " + player.getName() + " " + amount + "x" + furniture.getDisplayName())
+							.color(NamedTextColor.RED));
+		}
+
+		return Command.SINGLE_SUCCESS;
+	}
+
+	public int onGet(CommandContext<CommandSourceStack> ctx) {
+		if(!(ctx.getSource().getSender() instanceof Player player)) {
+			ctx.getSource().getSender().sendMessage(Component.text("You cannot use this command from the console")
+															.color(NamedTextColor.RED));
+			return Command.SINGLE_SUCCESS;
+		}
+
+		Furniture furniture = ctx.getArgument("furniture", Furniture.class);
+		ItemUtils.giveItem(player, furniture, 1, null);
+		player.sendMessage(Component.text("You have been given " + furniture.getDisplayName())
+								   .color(NamedTextColor.GREEN));
+
+		return Command.SINGLE_SUCCESS;
+	}
+
+	public int onRemove(CommandContext<CommandSourceStack> ctx) {
+		Location location = ctx.getArgument("location", Location.class);
+		CommandSender sender = ctx.getSource().getSender();
+		Player actor = sender instanceof Player ? (Player) sender : null;
+
+		furnitureManager.breakFurniture(location, actor);
+		return Command.SINGLE_SUCCESS;
+	}
+
+	public int onReload(CommandContext<CommandSourceStack> ctx) {
 		plugin.reloadConfig();
 		furnitureManager.loadFurniture();
 		recipeManager.registerRecipes();
-		sender.sendMessage(
-				ChatColor.GOLD + "Furniture" + ChatColor.YELLOW + "Engine" + ChatColor.DARK_GRAY + " � " + ChatColor.GRAY + "Config reloaded!");
+		ctx.getSource().getSender().sendMessage(Component.text("Config has been reloaded")
+														.color(NamedTextColor.GREEN));
+
+		return Command.SINGLE_SUCCESS;
 	}
 }
