@@ -1,22 +1,29 @@
 name: FurnitureEngine
 version: @project.version@
 main: com.mira.furnitureengine.FurnitureEngine
-author: Mira
-api-version: 1.20.6
-description: Allows you to make custom usable furniture.
-depend: []
-softdepend:
-  - WorldGuard
-  - PlotSquared
-  - GriefPrevention
-  - GSit
-  - CreativeItemFilter
+authors:
+  - Jim (AnEnragedPigeon)
+  - Mira
+api-version: '1.21'
+description: Custom usable furniture items
 
-commands:
-  furnitureengine:
-   description: Main Plugin command.
-   aliases: [fe, furniture]
-   permission: furnitureengine.basic
+dependencies:
+  server:
+    WorldGuard:
+      load: AFTER
+      required: false
+    PlotSquared:
+      load: AFTER
+      required: false
+    GriefPrevention:
+      load: AFTER
+      required: false
+    GSit:
+      load: AFTER
+      required: false
+    CreativeItemFilter:
+      load: AFTER
+      required: false
 
 permissions:
   furnitureengine.give:
