@@ -17,12 +17,10 @@ import org.bukkit.inventory.EquipmentSlot;
 
 import com.mira.furnitureengine.FurnitureEngine;
 
-public class RightClick implements Listener {
-	private final FurnitureEngine plugin;
+public final class RightClick implements Listener {
 	private final FurnitureManager furnitureManager;
 
 	public RightClick(FurnitureEngine plugin) {
-		this.plugin = plugin;
 		furnitureManager = plugin.getFurnitureManager();
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
 	}

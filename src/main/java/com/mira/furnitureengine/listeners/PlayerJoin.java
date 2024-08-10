@@ -7,12 +7,10 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
-public class PlayerJoin implements Listener {
-	private final FurnitureEngine plugin;
+public final class PlayerJoin implements Listener {
 	private final RecipeManager recipeManager;
 
 	public PlayerJoin(FurnitureEngine plugin) {
-		this.plugin = plugin;
 		recipeManager = plugin.getRecipeManager();
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
 	}

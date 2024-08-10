@@ -7,7 +7,7 @@ import org.bukkit.event.HandlerList;
 import org.jetbrains.annotations.NotNull;
 
 @SuppressWarnings("unused")
-public class FurnitureBreakEvent extends Event {
+public final class FurnitureBreakEvent extends Event {
 	private static final HandlerList handlers = new HandlerList();
 	private boolean cancelled;
 	private boolean dropitem;

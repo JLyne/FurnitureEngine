@@ -18,12 +18,10 @@ import com.mira.furnitureengine.FurnitureEngine;
 import org.bukkit.inventory.ItemStack;
 
 
-public class FurniturePlace implements Listener {
-	private final FurnitureEngine plugin;
+public final class FurniturePlace implements Listener {
 	private final FurnitureManager furnitureManager;
 
 	public FurniturePlace(FurnitureEngine plugin) {
-		this.plugin = plugin;
 		furnitureManager = plugin.getFurnitureManager();
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
 	}

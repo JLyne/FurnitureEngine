@@ -22,7 +22,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import com.mira.furnitureengine.FurnitureEngine;
 
 
-public class FurnitureBreak implements Listener {
+public final class FurnitureBreak implements Listener {
 	private final FurnitureEngine plugin;
 	private final FurnitureManager furnitureManager;
 
