@@ -6,6 +6,7 @@ authors:
   - Mira
 api-version: '1.21'
 description: Custom usable furniture items
+load: STARTUP
 
 dependencies:
   server:
