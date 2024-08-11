@@ -4,6 +4,7 @@ import com.mira.furnitureengine.api.events.FurnitureBreakEvent;
 import com.mira.furnitureengine.api.events.FurnitureInteractEvent;
 import com.mira.furnitureengine.api.events.FurniturePlaceEvent;
 import com.mira.furnitureengine.utils.ItemUtils;
+import io.papermc.paper.math.BlockPosition;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;

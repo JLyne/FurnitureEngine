@@ -10,7 +10,9 @@ import com.mojang.brigadier.tree.ArgumentCommandNode;
 import com.mojang.brigadier.tree.LiteralCommandNode;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
 import io.papermc.paper.command.brigadier.Commands;
+import io.papermc.paper.command.brigadier.argument.resolvers.BlockPositionResolver;
 import io.papermc.paper.command.brigadier.argument.resolvers.selector.PlayerSelectorArgumentResolver;
+import io.papermc.paper.math.BlockPosition;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Location;
@@ -19,6 +21,7 @@ import org.bukkit.entity.Player;
 
 import com.mira.furnitureengine.FurnitureEngine;
 import com.mira.furnitureengine.utils.*;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
@@ -44,7 +47,7 @@ public final class CoreCommand {
 
 		LiteralCommandNode<CommandSourceStack> giveCommand = literal("give")
 				.requires(source -> source.getSender().hasPermission("furnitureengine.give"))
-				.then(argument("player", players())
+				.then(argument("players", players())
 							  .then(argument("furniture", furnitureArgumentType)
 											.executes(ctx -> onGive(ctx, 1))
 											.then(argument("amount", integer(0, 6400))
@@ -89,10 +92,10 @@ public final class CoreCommand {
 
 		for(Player player: players) {
 			ItemUtils.giveItem(player, furniture, amount, null);
-			player.sendMessage(
+			ctx.getSource().getSender().sendMessage(
 					Component.text(
 							"Given " + player.getName() + " " + amount + "x" + furniture.getDisplayName())
-							.color(NamedTextColor.RED));
+							.color(NamedTextColor.GREEN));
 		}
 
 		return Command.SINGLE_SUCCESS;
@@ -113,10 +116,12 @@ public final class CoreCommand {
 		return Command.SINGLE_SUCCESS;
 	}
 
-	public int onRemove(CommandContext<CommandSourceStack> ctx) {
-		Location location = ctx.getArgument("location", Location.class);
+	public int onRemove(CommandContext<CommandSourceStack> ctx) throws CommandSyntaxException {
 		CommandSender sender = ctx.getSource().getSender();
 		Player actor = sender instanceof Player ? (Player) sender : null;
+
+		BlockPosition pos = ctx.getArgument("location", BlockPositionResolver.class).resolve(ctx.getSource());
+		Location location = new Location(ctx.getSource().getLocation().getWorld(), pos.x(), pos.y(), pos.z());
 
 		furnitureManager.breakFurniture(location, actor);
 		return Command.SINGLE_SUCCESS;
