@@ -7,9 +7,11 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemRarity;
 
 import javax.annotation.Nullable;
 import java.util.*;
+import java.util.List;
 
 @SuppressWarnings("unused")
 public class Furniture {
@@ -19,6 +21,7 @@ public class Furniture {
 	private Material material = Material.OAK_PLANKS;
 
 	private int customModelData = 0;
+	private ItemRarity rarity = ItemRarity.COMMON;
 	private int height = 1;
 	private int width = 1;
 	private int length = 1;
@@ -55,8 +58,16 @@ public class Furniture {
 		return customModelData;
 	}
 
+	public ItemRarity getRarity() {
+		return rarity;
+	}
+
 	public void setCustomModelData(int customModelData) {
 		this.customModelData = customModelData;
+	}
+
+	public void setRarity(ItemRarity rarity) {
+		this.rarity = rarity;
 	}
 
 	public int getHeight() {

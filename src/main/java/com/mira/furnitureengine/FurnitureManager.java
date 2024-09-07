@@ -12,6 +12,7 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.ItemFrame;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemRarity;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import ru.beykerykt.minecraft.lightapi.common.LightAPI;
@@ -43,6 +44,7 @@ public class FurnitureManager {
 		furnitureConfig.getKeys(false).forEach(key -> {
 			Component displayName = furnitureConfig.getRichMessage(key + ".display");
 			int customModelData = furnitureConfig.getInt(key + ".custommodeldata", 0);
+			ItemRarity rarity = ItemRarity.valueOf(furnitureConfig.getString(key + ".rarity", "COMMON"));
 
 			int height = furnitureConfig.getInt(key + ".height", 0);
 			int width = furnitureConfig.getInt(key + ".width", 0);
@@ -65,6 +67,7 @@ public class FurnitureManager {
 			Furniture item = new Furniture(key);
 			item.setDisplayName(displayName);
 			item.setCustomModelData(customModelData);
+			item.setRarity(rarity);
 			item.setSize(height, width, length);
 			item.setCancelDrop(cancelItemDrop);
 			item.setFullRotate(fullRotate);

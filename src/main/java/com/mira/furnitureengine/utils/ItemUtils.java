@@ -63,6 +63,7 @@ public class ItemUtils {
 
 		// Custom Model Data
 		meta.setCustomModelData(furniture.getCustomModelData());
+		meta.setRarity(furniture.getRarity());
 		meta.getPersistentDataContainer().set(plugin.furnitureKey, plugin.furnitureTagType, furniture);
 
 		// Lore (Optional check)

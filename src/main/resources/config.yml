@@ -6,6 +6,7 @@ Furniture:
     length: 1
     height: 1
     custommodeldata: 2147483647
+    rarity: RARE
     chair:
       enabled: false
       yoffset: 0
