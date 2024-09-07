@@ -59,7 +59,7 @@ public class ItemUtils {
 		ItemMeta meta = item.getItemMeta();
 
 		// Display Name
-		meta.displayName(serializer.deserialize(furniture.getDisplayName()));
+		meta.itemName(furniture.getDisplayName());
 
 		// Custom Model Data
 		meta.setCustomModelData(furniture.getCustomModelData());
