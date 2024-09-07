@@ -1,6 +1,7 @@
 name: FurnitureEngine
 version: @project.version@
 main: com.mira.furnitureengine.FurnitureEngine
+loader: com.mira.furnitureengine.FurnitureEngineLoader
 authors:
   - Jim (AnEnragedPigeon)
   - Mira

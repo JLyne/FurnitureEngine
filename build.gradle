@@ -45,6 +45,12 @@ version = '1.1-SNAPSHOT'
 java.sourceCompatibility = JavaVersion.VERSION_21
 java.targetCompatibility = JavaVersion.VERSION_21
 
+task processSource(type: Sync) {
+    from sourceSets.main.java
+    filter(ReplaceTokens, tokens: [('messagesHelperDependency'): messagesHelperDependency])
+    into "${layout.buildDirectory.get()}/src"
+}
+
 tasks {
     processResources {
         from("${project.rootDir}/src/main/resources") {
@@ -60,6 +66,8 @@ tasks {
     }
 
     compileJava {
+        dependsOn(clean)
+        source = processSource.outputs
         options.compilerArgs += ["-Xlint:all", "-Xlint:-processing"]
         options.encoding = 'utf-8'
     }
