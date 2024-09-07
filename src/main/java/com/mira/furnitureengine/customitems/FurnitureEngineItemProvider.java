@@ -3,7 +3,6 @@ package com.mira.furnitureengine.customitems;
 import com.mira.furnitureengine.Furniture;
 import com.mira.furnitureengine.FurnitureEngine;
 import com.mira.furnitureengine.utils.ItemUtils;
-import net.kyori.adventure.text.Component;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import uk.co.notnull.CustomItems.api.items.CustomItem;
@@ -23,7 +22,7 @@ public final class FurnitureEngineItemProvider implements CustomItemProvider {
 		plugin.getFurnitureManager().getAllFurniture().forEach((id, furniture) -> {
 			CustomItem customItem = CustomItem.builder()
 					.id(new NamespacedKey(plugin, id))
-					.displayName(Component.text(furniture.getDisplayName()))
+					.displayName(furniture.getDisplayName())
 					.generator((player, quantity) -> ItemUtils.createFurnitureItem(furniture, quantity))
 					.build();
 

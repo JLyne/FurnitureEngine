@@ -4,7 +4,7 @@ import com.mira.furnitureengine.api.events.FurnitureBreakEvent;
 import com.mira.furnitureengine.api.events.FurnitureInteractEvent;
 import com.mira.furnitureengine.api.events.FurniturePlaceEvent;
 import com.mira.furnitureengine.utils.ItemUtils;
-import io.papermc.paper.math.BlockPosition;
+import net.kyori.adventure.text.Component;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -41,7 +41,7 @@ public class FurnitureManager {
 		}
 
 		furnitureConfig.getKeys(false).forEach(key -> {
-			String displayName = furnitureConfig.getString(key + ".display", "");
+			Component displayName = furnitureConfig.getRichMessage(key + ".display");
 			int customModelData = furnitureConfig.getInt(key + ".custommodeldata", 0);
 
 			int height = furnitureConfig.getInt(key + ".height", 0);

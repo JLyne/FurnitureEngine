@@ -2,6 +2,7 @@ package com.mira.furnitureengine;
 
 import com.mira.furnitureengine.conditions.*;
 import com.mira.furnitureengine.utils.Utils;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -13,7 +14,7 @@ import java.util.*;
 @SuppressWarnings("unused")
 public class Furniture {
 	private final String id;
-	private String displayName = "";
+	private Component displayName = Component.empty();
 	private List<String> lore = new ArrayList<>();
 	private Material material = Material.OAK_PLANKS;
 
@@ -41,11 +42,11 @@ public class Furniture {
 		return id;
 	}
 
-	public String getDisplayName() {
+	public Component getDisplayName() {
 		return displayName;
 	}
 
-	public void setDisplayName(String displayName) {
+	public void setDisplayName(Component displayName) {
 		Objects.requireNonNull(displayName);
 		this.displayName = displayName;
 	}

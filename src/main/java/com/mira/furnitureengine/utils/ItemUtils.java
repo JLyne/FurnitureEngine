@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.mira.furnitureengine.Furniture;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
+import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -16,7 +16,7 @@ import com.mira.furnitureengine.FurnitureEngine;
 
 public class ItemUtils {
 	static final FurnitureEngine plugin = FurnitureEngine.getPlugin(FurnitureEngine.class);
-	static final LegacyComponentSerializer serializer = LegacyComponentSerializer.legacyAmpersand();
+	static final MiniMessage serializer = MiniMessage.miniMessage();
 
 	public static void giveItem(Player player, String id, int amount, Location loc) {
 		Furniture item = plugin.getFurnitureManager().getFurnitureById(id);
