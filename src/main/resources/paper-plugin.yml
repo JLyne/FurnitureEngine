@@ -4,7 +4,7 @@ main: com.mira.furnitureengine.FurnitureEngine
 authors:
   - Jim (AnEnragedPigeon)
   - Mira
-api-version: '1.21'
+api-version: '1.21.1'
 description: Custom usable furniture items
 load: STARTUP
 
