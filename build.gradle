@@ -34,8 +34,9 @@ dependencies {
     compileOnly 'com.github.TechFortress:GriefPrevention:16.18'
     compileOnly 'com.github.Gecolay.GSit:core:1.9.5'
     compileOnly 'org.hurricanegames:CreativeItemFilter:3.0-SNAPSHOT' //Local maven
-    implementation 'com.github.BeYkeRYkt:LightAPI:5.3.0-Bukkit'
     compileOnly 'uk.co.notnull:CustomItemsAPI:1.0-SNAPSHOT'
+    implementation 'com.github.BeYkeRYkt:LightAPI:5.3.0-Bukkit'
+    implementation messagesHelperDependency
 }
 
 group = 'uk.co.notnull'

@@ -1,0 +1,5 @@
+command:
+  get-success: '<green>You have been given <item>'
+  give-success: '<green>Given <player> <amount>x<item>'
+  reload-success: '<green>Config has been reloaded'
+  not-a-player: '<red>You cannot use this command from the console'

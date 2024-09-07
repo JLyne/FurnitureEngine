@@ -21,12 +21,16 @@ import org.bukkit.event.server.PluginDisableEvent;
 import org.bukkit.event.server.PluginEnableEvent;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
+import uk.co.notnull.messageshelper.MessagesHelper;
+
+import java.io.File;
 
 @SuppressWarnings("UnstableApiUsage")
 public final class FurnitureEngine extends JavaPlugin implements Listener {
 	public final NamespacedKey furnitureKey;
 	public final FurnitureTag furnitureTagType;
 
+	private final MessagesHelper messagesHelper = MessagesHelper.getInstance(this);
 	private WorldGuardHandler worldGuardHandler;
 	private GriefPreventionHandler griefPreventionHandler;
 	private PlotSquaredHandler plotSquaredHandler;
@@ -142,6 +146,8 @@ public final class FurnitureEngine extends JavaPlugin implements Listener {
 	}
 
 	public void loadConfig() {
+		saveResource("messages.yml", false);
+		messagesHelper.loadMessages(new File(getDataFolder(), "messages.yml"));
 		getConfig().options().copyDefaults(true);
 		saveConfig();
 	}
@@ -169,4 +175,8 @@ public final class FurnitureEngine extends JavaPlugin implements Listener {
 	public GSitHandler getgSitHandler() {
 		return gSitHandler;
 	}
+
+	public MessagesHelper getMessagesHelper() {
+        return messagesHelper;
+    }
 }

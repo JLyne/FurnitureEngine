@@ -18,17 +18,17 @@ public class ItemUtils {
 	static final FurnitureEngine plugin = FurnitureEngine.getPlugin(FurnitureEngine.class);
 	static final MiniMessage serializer = MiniMessage.miniMessage();
 
-	public static void giveItem(Player player, String id, int amount, Location loc) {
+	public static ItemStack giveItem(Player player, String id, int amount, Location loc) {
 		Furniture item = plugin.getFurnitureManager().getFurnitureById(id);
 
 		if (item == null) {
-			return;
+			return null;
 		}
 
-		giveItem(player, item, amount, loc);
+		return giveItem(player, item, amount, loc);
 	}
 
-	public static void giveItem(Player player, Furniture furniture, int amount, Location loc) {
+	public static ItemStack giveItem(Player player, Furniture furniture, int amount, Location loc) {
 		if (loc == null) {
 			// if no location is provided it will default to player location
 			loc = player.getLocation();
@@ -38,12 +38,14 @@ public class ItemUtils {
 
 		if (player == null) {
 			loc.getWorld().dropItem(loc, item);
-			return;
+			return item;
 		}
 
 		if (!player.getInventory().addItem(item).isEmpty()) {
 			loc.getWorld().dropItem(loc, item);
 		}
+
+		return item;
 	}
 
 	public static void dropItem(Furniture furniture, int amount, Location loc) {

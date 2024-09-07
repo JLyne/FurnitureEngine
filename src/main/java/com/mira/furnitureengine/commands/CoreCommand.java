@@ -13,15 +13,14 @@ import io.papermc.paper.command.brigadier.Commands;
 import io.papermc.paper.command.brigadier.argument.resolvers.BlockPositionResolver;
 import io.papermc.paper.command.brigadier.argument.resolvers.selector.PlayerSelectorArgumentResolver;
 import io.papermc.paper.math.BlockPosition;
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import com.mira.furnitureengine.FurnitureEngine;
 import com.mira.furnitureengine.utils.*;
-import org.jetbrains.annotations.NotNull;
+import org.bukkit.inventory.ItemStack;
+import uk.co.notnull.messageshelper.Message;
 
 import java.util.List;
 
@@ -91,11 +90,12 @@ public final class CoreCommand {
 		List<Player> players = ctx.getArgument("players", PlayerSelectorArgumentResolver.class).resolve(ctx.getSource());
 
 		for(Player player: players) {
-			ItemUtils.giveItem(player, furniture, amount, null);
-			ctx.getSource().getSender().sendMessage(
-					Component.text(
-							"Given " + player.getName() + " " + amount + "x" + furniture.getDisplayName())
-							.color(NamedTextColor.GREEN));
+			ItemStack item = ItemUtils.giveItem(player, furniture, amount, null);
+			plugin.getMessagesHelper().send(ctx.getSource().getSender(), Message.builder("command.give-success")
+					.replacement("player", player.displayName().hoverEvent(player.asHoverEvent()))
+                    .replacement("amount", String.valueOf(amount))
+                    .replacement("item", item.displayName().hoverEvent(item.asHoverEvent()))
+                    .build());
 		}
 
 		return Command.SINGLE_SUCCESS;
@@ -103,15 +103,20 @@ public final class CoreCommand {
 
 	public int onGet(CommandContext<CommandSourceStack> ctx) {
 		if(!(ctx.getSource().getSender() instanceof Player player)) {
-			ctx.getSource().getSender().sendMessage(Component.text("You cannot use this command from the console")
-															.color(NamedTextColor.RED));
+			plugin.getMessagesHelper().send(ctx.getSource().getSender(), Message.builder("command.not-a-player")
+					.build());
+
 			return Command.SINGLE_SUCCESS;
 		}
 
 		Furniture furniture = ctx.getArgument("furniture", Furniture.class);
-		ItemUtils.giveItem(player, furniture, 1, null);
-		player.sendMessage(Component.text("You have been given " + furniture.getDisplayName())
-								   .color(NamedTextColor.GREEN));
+		ItemStack item = ItemUtils.giveItem(player, furniture, 1, null);
+
+		plugin.getMessagesHelper().send(ctx.getSource().getSender(), Message.builder("command.get-success")
+				.replacement("player", player.displayName().hoverEvent(player.asHoverEvent()))
+				.replacement("amount", String.valueOf(1))
+				.replacement("item", item.displayName().hoverEvent(item.asHoverEvent()))
+				.build());
 
 		return Command.SINGLE_SUCCESS;
 	}
@@ -131,8 +136,9 @@ public final class CoreCommand {
 		plugin.reloadConfig();
 		furnitureManager.loadFurniture();
 		recipeManager.registerRecipes();
-		ctx.getSource().getSender().sendMessage(Component.text("Config has been reloaded")
-														.color(NamedTextColor.GREEN));
+
+		plugin.getMessagesHelper().send(ctx.getSource().getSender(), Message.builder("command.reload-success")
+				.build());
 
 		return Command.SINGLE_SUCCESS;
 	}
