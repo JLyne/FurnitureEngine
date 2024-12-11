@@ -35,7 +35,6 @@ dependencies {
     compileOnly 'com.github.Gecolay.GSit:core:1.12.0'
     compileOnly 'org.hurricanegames:CreativeItemFilter:3.0-SNAPSHOT' //Local maven
     compileOnly 'uk.co.notnull:CustomItemsAPI:1.0-SNAPSHOT'
-    implementation 'com.github.BeYkeRYkt:LightAPI:5.3.0-Bukkit'
     implementation messagesHelperDependency
 }
 

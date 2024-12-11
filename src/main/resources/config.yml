@@ -11,7 +11,6 @@ Furniture:
       enabled: false
       yoffset: 0
     full-rotate: true
-    light-level: 0
     commands:
       right-click: {}
       block-place: {}

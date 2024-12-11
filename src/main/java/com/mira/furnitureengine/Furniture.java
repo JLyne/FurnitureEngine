@@ -25,7 +25,6 @@ public class Furniture {
 	private int height = 1;
 	private int width = 1;
 	private int length = 1;
-	private int lightLevel = 0;
 
 	private boolean fullRotate = false;
 	private boolean cancelDrop = false;
@@ -92,14 +91,6 @@ public class Furniture {
 
 	public void setLength(int length) {
 		this.length = length;
-	}
-
-	public int getLightLevel() {
-		return lightLevel;
-	}
-
-	public void setLightLevel(int lightLevel) {
-		this.lightLevel = lightLevel;
 	}
 
 	public void setSize(int height, int width, int length) {

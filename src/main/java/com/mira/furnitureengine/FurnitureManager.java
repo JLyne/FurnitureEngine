@@ -15,7 +15,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemRarity;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import ru.beykerykt.minecraft.lightapi.common.LightAPI;
 
 import javax.annotation.Nullable;
 import java.util.Collections;
@@ -136,14 +135,6 @@ public class FurnitureManager {
 		// Rotation of item-frame
 		frame.setRotation(rotation);
 
-		if (plugin.getServer().getPluginManager().getPlugin("LightAPI") != null) {
-			LightAPI.get().setLightLevel(blockLocation.getWorld().getName(),
-										 blockLocation.getBlockX(),
-										 blockLocation.getBlockY(),
-										 blockLocation.getBlockZ(),
-										 furniture.getLightLevel());
-		}
-
 		furniture.executeCommand("block-place", actor, blockLocation);
 
 		return true;
@@ -199,14 +190,6 @@ public class FurnitureManager {
 		}
 
 		frame.remove();
-
-		if (furniture.getLightLevel() > 0
-				&& plugin.getServer().getPluginManager().getPlugin("LightAPI") != null) {
-			LightAPI.get().setLightLevel(blockLocation.getWorld().getName(),
-										 blockLocation.getBlockX(),
-										 blockLocation.getBlockY(),
-										 blockLocation.getBlockZ(), 0);
-		}
 
 		if (event.isDroppingItems() && (actor == null || actor.getGameMode() != GameMode.CREATIVE)) {
 			ItemUtils.dropItem(furniture, 1, blockLocation);
