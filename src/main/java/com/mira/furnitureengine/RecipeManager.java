@@ -51,7 +51,7 @@ public class RecipeManager {
 				if(ingredientSection != null) {
 					ingredientSection.getKeys(false)
 							.forEach(character -> ingredients.put(character.charAt(0),
-															 Material.valueOf(ingredientSection.getString(character, ""))));
+															 Material.matchMaterial(ingredientSection.getString(character, ""))));
 				}
 
 				ShapedRecipe recipe = new ShapedRecipe(recipeKey, ItemUtils.createFurnitureItem(furniture, 1));

@@ -4,6 +4,8 @@ import com.mira.furnitureengine.api.events.FurnitureBreakEvent;
 import com.mira.furnitureengine.api.events.FurnitureInteractEvent;
 import com.mira.furnitureengine.api.events.FurniturePlaceEvent;
 import com.mira.furnitureengine.utils.ItemUtils;
+import io.papermc.paper.datacomponent.DataComponentTypes;
+import io.papermc.paper.datacomponent.item.CustomModelData;
 import net.kyori.adventure.text.Component;
 import org.bukkit.*;
 import org.bukkit.block.Block;
@@ -22,7 +24,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@SuppressWarnings({"UnusedReturnValue", "unused", "BooleanMethodIsAlwaysInverted"})
+@SuppressWarnings({"UnusedReturnValue", "unused", "BooleanMethodIsAlwaysInverted", "UnstableApiUsage"})
 public class FurnitureManager {
 	private final FurnitureEngine plugin;
 	private final Map<String, Furniture> furniture = new HashMap<>();
@@ -41,9 +43,10 @@ public class FurnitureManager {
 		}
 
 		furnitureConfig.getKeys(false).forEach(key -> {
-			Component displayName = furnitureConfig.getRichMessage(key + ".display");
-			int customModelData = furnitureConfig.getInt(key + ".custommodeldata", 0);
-			ItemRarity rarity = ItemRarity.valueOf(furnitureConfig.getString(key + ".rarity", "COMMON"));
+			Component itemName = furnitureConfig.getRichMessage(key + ".item-name");
+			NamespacedKey itemModel = NamespacedKey.fromString(furnitureConfig.getString(key + ".item-model", ""));
+			ItemRarity rarity = ItemRarity.valueOf(
+					furnitureConfig.getString(key + ".rarity", "common").toUpperCase());
 
 			int height = furnitureConfig.getInt(key + ".height", 0);
 			int width = furnitureConfig.getInt(key + ".width", 0);
@@ -53,9 +56,8 @@ public class FurnitureManager {
 			boolean cancelItemDrop = furnitureConfig.getBoolean(key + ".cancel-item-drop", false);
 
 			boolean chair = furnitureConfig.getBoolean(key + ".chair.enabled", false);
-			double chairOffset = furnitureConfig.getDouble(key + ".chair.yoffset", 0);
+			double chairOffset = furnitureConfig.getDouble(key + ".chair.y-offset", 0);
 
-			Material material = Material.getMaterial(furnitureConfig.getString(key + ".item", "OAK_PLANKS"));
 			List<String> conditions = furnitureConfig.getStringList(key + ".conditions");
 			Map<String, List<String>> commands = new HashMap<>();
 
@@ -64,8 +66,9 @@ public class FurnitureManager {
 			commands.put("block-break", furnitureConfig.getStringList(key + ".commands.block-break"));
 
 			Furniture item = new Furniture(key);
-			item.setDisplayName(displayName);
-			item.setCustomModelData(customModelData);
+			item.setItemName(itemName);
+			item.setItemModel(itemModel);
+			item.setCustomModelData(parseCustomModelData(furnitureConfig.getString(key + ".custom-model-data")));
 			item.setRarity(rarity);
 			item.setSize(height, width, length);
 			item.setCancelDrop(cancelItemDrop);
@@ -75,12 +78,48 @@ public class FurnitureManager {
 			item.setChair(chair);
 			item.setChairOffset(chairOffset);
 
-			if (material != null) {
-				item.setMaterial(material);
-			}
-
 			furniture.put(key, item);
 		});
+	}
+
+	private CustomModelData parseCustomModelData(Object value) {
+		CustomModelData.Builder customModelData = CustomModelData.customModelData();
+
+		if(value instanceof ConfigurationSection section) {
+			List<Float> floats = section.getFloatList("floats");
+			List<String> strings = section.getStringList("strings");
+			List<Boolean> flags = section.getBooleanList("flags");
+
+			if(!floats.isEmpty()) {
+				customModelData.addFloats(floats);
+			}
+
+			if(!strings.isEmpty()) {
+				customModelData.addStrings(strings);
+			}
+
+			if(!flags.isEmpty()) {
+				customModelData.addFlags(flags);
+			}
+		} else {
+			addValue(customModelData, value);
+		}
+
+		return customModelData.build();
+	}
+
+	private void addValue(CustomModelData.Builder customModelData, Object value) {
+		if(value instanceof String string) {
+			customModelData.addString(string);
+		} else if(value instanceof Number number) {
+			customModelData.addFloat(number.floatValue());
+		} else if(value instanceof Boolean bool) {
+			customModelData.addFlag(bool);
+		} else if(value instanceof List list) {
+			for(Object item: list) {
+				addValue(customModelData, item);
+			}
+		}
 	}
 
 	// Places furniture at location.
@@ -118,11 +157,12 @@ public class FurnitureManager {
 			return false;
 		}
 
-		ItemStack furnitureItem = new ItemStack(furniture.getMaterial(), 1);
+		ItemStack furnitureItem = new ItemStack(Material.OAK_PLANKS, 1);
 		ItemMeta meta = furnitureItem.getItemMeta();
-		meta.setCustomModelData(furniture.getCustomModelData());
 		meta.getPersistentDataContainer().set(plugin.furnitureKey, plugin.furnitureTagType, furniture);
 		furnitureItem.setItemMeta(meta);
+		furnitureItem.setData(DataComponentTypes.ITEM_MODEL, furniture.getItemModel());
+		furnitureItem.setData(DataComponentTypes.CUSTOM_MODEL_DATA, furniture.getCustomModelData());
 
 		frame.setInvulnerable(true);
 		frame.setFixed(true);
@@ -306,7 +346,7 @@ public class FurnitureManager {
 			return null;
 		}
 
-		return item.getItemMeta().getPersistentDataContainer().get(plugin.furnitureKey, plugin.furnitureTagType);
+		return item.getPersistentDataContainer().get(plugin.furnitureKey, plugin.furnitureTagType);
 	}
 
 	public Map<String, Furniture> getAllFurniture() {

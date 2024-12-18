@@ -2,10 +2,11 @@ package com.mira.furnitureengine;
 
 import com.mira.furnitureengine.conditions.*;
 import com.mira.furnitureengine.utils.Utils;
+import io.papermc.paper.datacomponent.item.CustomModelData;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemRarity;
 
@@ -13,14 +14,14 @@ import javax.annotation.Nullable;
 import java.util.*;
 import java.util.List;
 
-@SuppressWarnings("unused")
+@SuppressWarnings({"unused", "UnstableApiUsage"})
 public class Furniture {
 	private final String id;
-	private Component displayName = Component.empty();
+	private Component itemName = Component.empty();
+	private NamespacedKey itemModel;
+	private CustomModelData customModelData;
 	private List<String> lore = new ArrayList<>();
-	private Material material = Material.OAK_PLANKS;
 
-	private int customModelData = 0;
 	private ItemRarity rarity = ItemRarity.COMMON;
 	private int height = 1;
 	private int width = 1;
@@ -44,25 +45,33 @@ public class Furniture {
 		return id;
 	}
 
-	public Component getDisplayName() {
-		return displayName;
+	public Component getItemName() {
+		return itemName;
 	}
 
-	public void setDisplayName(Component displayName) {
-		Objects.requireNonNull(displayName);
-		this.displayName = displayName;
+	public void setItemName(Component itemName) {
+		Objects.requireNonNull(itemName);
+		this.itemName = itemName;
 	}
 
-	public int getCustomModelData() {
+	public NamespacedKey getItemModel() {
+		return itemModel;
+	}
+
+	public void setItemModel(NamespacedKey itemModel) {
+		this.itemModel = itemModel;
+	}
+
+	public CustomModelData getCustomModelData() {
 		return customModelData;
+	}
+
+	public void setCustomModelData(CustomModelData customModelData) {
+		this.customModelData = customModelData;
 	}
 
 	public ItemRarity getRarity() {
 		return rarity;
-	}
-
-	public void setCustomModelData(int customModelData) {
-		this.customModelData = customModelData;
 	}
 
 	public void setRarity(ItemRarity rarity) {
@@ -131,15 +140,6 @@ public class Furniture {
 	public void setLore(List<String> lore) {
 		Objects.requireNonNull(lore);
 		this.lore = lore;
-	}
-
-	public Material getMaterial() {
-		return material;
-	}
-
-	public void setMaterial(Material material) {
-		Objects.requireNonNull(material);
-		this.material = material;
 	}
 
 	public List<String> getConditions() {

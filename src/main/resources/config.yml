@@ -1,15 +1,16 @@
 # Make sure to check out the wiki and given resource pack / config for help!
 Furniture:
    example:
-    display: 'Example Furniture'
+    item-name: 'Example Furniture'
     width: 1
     length: 1
     height: 1
-    custommodeldata: 2147483647
-    rarity: RARE
+    item-model: 'minecraft:feather'
+    custom-model-data: 0
+    rarity: rare
     chair:
       enabled: false
-      yoffset: 0
+      y-offset: 0
     full-rotate: true
     commands:
       right-click: {}

@@ -22,7 +22,7 @@ public final class FurnitureEngineItemProvider implements CustomItemProvider {
 		plugin.getFurnitureManager().getAllFurniture().forEach((id, furniture) -> {
 			CustomItem customItem = CustomItem.builder()
 					.id(new NamespacedKey(plugin, id))
-					.displayName(furniture.getDisplayName())
+					.displayName(furniture.getItemName())
 					.generator((player, quantity) -> ItemUtils.createFurnitureItem(furniture, quantity))
 					.build();
 
