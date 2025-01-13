@@ -54,6 +54,7 @@ paper {
     loader = "com.mira.furnitureengine.FurnitureEngineLoader"
     apiVersion = libs.versions.paperApi.get().replace(Regex("\\-R\\d.\\d-SNAPSHOT"), "")
     authors = listOf("Jim (AnEnragedPigeon)", "Mira")
+    generateLibrariesJson = true
     description = "Custom usable furniture items"
     load = BukkitPluginDescription.PluginLoadOrder.STARTUP
 
