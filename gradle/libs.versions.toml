@@ -1,7 +1,7 @@
 [versions]
-pluginYmlPaper = "0.6.0"
+pluginYmlPaper = "0.7.1"
 paperApi = "1.21.4-R0.1-SNAPSHOT"
-worldguard = "7.0.13-SNAPSHOT"
+worldguard = "7.0.13"
 intellectualsitesBom = "1.52"
 griefPrevention = "16.18"
 gsit = "1.13.0"
@@ -22,4 +22,4 @@ customItemsApi = { group = "uk.co.notnull", name = "CustomItemsAPI", version.ref
 messagesHelper = { group = "uk.co.notnull", name = "MessagesHelper-paper", version.ref = "messagesHelper" }
 
 [plugins]
-pluginYmlPaper = { id = "net.minecrell.plugin-yml.paper", version.ref = "pluginYmlPaper" }
+pluginYmlPaper = { id = "de.eldoria.plugin-yml.paper", version.ref = "pluginYmlPaper" }
