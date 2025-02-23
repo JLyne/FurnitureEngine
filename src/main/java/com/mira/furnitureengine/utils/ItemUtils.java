@@ -12,7 +12,6 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 
 import com.mira.furnitureengine.FurnitureEngine;
 
@@ -62,9 +61,8 @@ public class ItemUtils {
 		// Creates item
 		ItemStack item = new ItemStack(Material.OAK_PLANKS, amount);
 
-		ItemMeta meta = item.getItemMeta();
-		meta.getPersistentDataContainer().set(plugin.furnitureKey, plugin.furnitureTagType, furniture);
-		item.setItemMeta(meta);
+		item.editPersistentDataContainer(pdc ->
+												 pdc.set(plugin.furnitureKey, plugin.furnitureTagType, furniture));
 
 		// Sets item data (name, rarity, lore, model data)
 		item.setData(DataComponentTypes.RARITY, furniture.getRarity());
