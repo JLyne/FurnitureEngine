@@ -7,6 +7,7 @@ import com.mira.furnitureengine.handlers.GSitHandler;
 import com.mira.furnitureengine.handlers.GriefPreventionHandler;
 import com.mira.furnitureengine.handlers.PlotSquaredHandler;
 import com.mira.furnitureengine.handlers.WorldGuardHandler;
+import com.mira.furnitureengine.listeners.Creative;
 import com.mira.furnitureengine.listeners.FurnitureBreak;
 import com.mira.furnitureengine.listeners.FurniturePlace;
 import com.mira.furnitureengine.listeners.PlayerJoin;
@@ -67,6 +68,7 @@ public final class FurnitureEngine extends JavaPlugin implements Listener {
 		new FurniturePlace(this);
 		new FurnitureBreak(this);
 		new PlayerJoin(this);
+		new Creative(this);
 	}
 
 	public void onDisable() {
