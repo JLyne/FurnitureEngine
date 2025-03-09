@@ -4,7 +4,6 @@ import com.mira.furnitureengine.Furniture;
 import com.mira.furnitureengine.FurnitureEngine;
 import com.mira.furnitureengine.FurnitureManager;
 import com.mira.furnitureengine.utils.ItemUtils;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -30,6 +29,5 @@ public final class Creative implements Listener {
 		}
 
 		event.setCursor(ItemUtils.createFurnitureItem(furniture, item.getAmount()));
-		((Player) event.getWhoClicked()).updateInventory();
 	}
 }
