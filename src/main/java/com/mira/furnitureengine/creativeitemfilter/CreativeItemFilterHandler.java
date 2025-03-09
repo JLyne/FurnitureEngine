@@ -3,7 +3,7 @@ package com.mira.furnitureengine.creativeitemfilter;
 import com.mira.furnitureengine.FurnitureEngine;
 import org.bukkit.Bukkit;
 import org.hurricanegames.creativeitemfilter.CreativeItemFilter;
-import org.hurricanegames.creativeitemfilter.handler.meta.MetaCopierFactory;
+import org.hurricanegames.creativeitemfilter.handler.component.ItemComponentPopulatorFactory;
 
 public class CreativeItemFilterHandler {
 
@@ -14,9 +14,9 @@ public class CreativeItemFilterHandler {
 			return;
 		}
 
-		MetaCopierFactory factory = ((CreativeItemFilter) Bukkit.getPluginManager().getPlugin("CreativeItemFilter"))
-				.getMetaCopierFactory();
+		ItemComponentPopulatorFactory factory = ((CreativeItemFilter) Bukkit.getPluginManager().getPlugin("CreativeItemFilter"))
+				.getComponentPopulatorFactory();
 
-		factory.addCopier(new FurnitureMetaCopier(plugin));
+		factory.addPopulator(new FurnitureComponentPopulator(plugin));
 	}
 }
