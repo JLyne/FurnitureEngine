@@ -5,7 +5,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.ShapedRecipe;
 
 import java.util.HashMap;
@@ -65,26 +64,10 @@ public class RecipeManager {
 				plugin.getLogger().warning("Failed to create recipe for item " + key + ": " + e.getMessage());
 			}
 		});
-
-		for (Player players : Bukkit.getOnlinePlayers()) {
-			discoverRecipes(players);
-		}
 	}
 
 	public void unregisterRecipes() {
-		for (Player players : Bukkit.getOnlinePlayers()) {
-			undiscoverRecipes(players);
-		}
-
 		recipes.forEach((key, recipe) -> Bukkit.removeRecipe(key));
 		recipes.clear();
-	}
-
-	public void discoverRecipes(Player player) {
-		player.discoverRecipes(recipes.keySet());
-	}
-
-	public void undiscoverRecipes(Player player) {
-		player.undiscoverRecipes(recipes.keySet());
 	}
 }

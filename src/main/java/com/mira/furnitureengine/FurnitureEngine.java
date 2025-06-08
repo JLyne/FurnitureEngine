@@ -10,9 +10,9 @@ import com.mira.furnitureengine.handlers.WorldGuardHandler;
 import com.mira.furnitureengine.listeners.Creative;
 import com.mira.furnitureengine.listeners.FurnitureBreak;
 import com.mira.furnitureengine.listeners.FurniturePlace;
-import com.mira.furnitureengine.listeners.PlayerJoin;
 import com.mira.furnitureengine.listeners.RightClick;
 import com.mira.furnitureengine.tags.FurnitureTag;
+import io.papermc.paper.event.server.ServerResourcesReloadedEvent;
 import io.papermc.paper.plugin.lifecycle.event.LifecycleEventManager;
 import io.papermc.paper.plugin.lifecycle.event.types.LifecycleEvents;
 import org.bukkit.NamespacedKey;
@@ -67,7 +67,6 @@ public final class FurnitureEngine extends JavaPlugin implements Listener {
 		new RightClick(this);
 		new FurniturePlace(this);
 		new FurnitureBreak(this);
-		new PlayerJoin(this);
 		new Creative(this);
 	}
 
@@ -145,6 +144,11 @@ public final class FurnitureEngine extends JavaPlugin implements Listener {
 				}
 			}
 		}
+	}
+
+	@EventHandler
+	public void onServerResourcesReloaded(ServerResourcesReloadedEvent event) {
+		recipeManager.registerRecipes();
 	}
 
 	public void loadConfig() {
