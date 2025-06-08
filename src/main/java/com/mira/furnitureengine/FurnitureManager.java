@@ -7,7 +7,14 @@ import com.mira.furnitureengine.utils.ItemUtils;
 import io.papermc.paper.datacomponent.DataComponentTypes;
 import io.papermc.paper.datacomponent.item.CustomModelData;
 import net.kyori.adventure.text.Component;
-import org.bukkit.*;
+import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
+import org.bukkit.Rotation;
+import org.bukkit.Sound;
+import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.configuration.ConfigurationSection;
@@ -16,7 +23,6 @@ import org.bukkit.entity.ItemFrame;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemRarity;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 
 import javax.annotation.Nullable;
 import java.util.Collections;
@@ -158,9 +164,8 @@ public class FurnitureManager {
 		}
 
 		ItemStack furnitureItem = new ItemStack(Material.OAK_PLANKS, 1);
-		ItemMeta meta = furnitureItem.getItemMeta();
-		meta.getPersistentDataContainer().set(plugin.furnitureKey, plugin.furnitureTagType, furniture);
-		furnitureItem.setItemMeta(meta);
+		furnitureItem.editPersistentDataContainer(
+				pdc -> pdc.set(plugin.furnitureKey, plugin.furnitureTagType, furniture));
 		furnitureItem.setData(DataComponentTypes.ITEM_MODEL, furniture.getItemModel());
 		furnitureItem.setData(DataComponentTypes.CUSTOM_MODEL_DATA, furniture.getCustomModelData());
 
@@ -333,12 +338,7 @@ public class FurnitureManager {
 	}
 
 	public boolean isFurnitureItem(ItemStack item) {
-		return item != null && isFurnitureItem(item.getItemMeta());
-	}
-
-	public boolean isFurnitureItem(ItemMeta meta) {
-		return meta != null && meta.getPersistentDataContainer()
-				.has(plugin.furnitureKey, plugin.furnitureTagType);
+		return item != null && item.getPersistentDataContainer().has(plugin.furnitureKey, plugin.furnitureTagType);
 	}
 
 	public Furniture getFurnitureFromItem(ItemStack item) {
