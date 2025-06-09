@@ -257,7 +257,7 @@ public class FurnitureManager {
 		Bukkit.getServer().getPluginManager().callEvent(event);
 
 		if (!event.isCancelled()) {
-			if(furniture.isChair()) {
+			if(furniture.isChair() && plugin.getgSitHandler() != null) {
 				plugin.getgSitHandler().sit(blockLocation.getBlock(), actor, furniture.getChairOffset());
 				return true;
 			}
