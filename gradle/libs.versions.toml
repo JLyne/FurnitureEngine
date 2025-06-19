@@ -1,7 +1,7 @@
 [versions]
 pluginYmlPaper = "0.7.1"
 paperApi = "1.21.5-R0.1-SNAPSHOT"
-worldguard = "7.0.13"
+worldguard = "7.0.14"
 intellectualsitesBom = "1.52"
 griefPrevention = "16.18"
 gsit = "2.3.2"
