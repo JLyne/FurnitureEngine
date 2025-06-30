@@ -1,9 +1,9 @@
 [versions]
 pluginYmlPaper = "0.7.1"
-paperApi = "1.21.6-R0.1-SNAPSHOT"
+paperApi = "1.21.7-R0.1-SNAPSHOT"
 worldguard = "7.0.14"
 intellectualsitesBom = "1.52"
-griefPrevention = "16.18"
+griefPrevention = "17.0.0"
 gsit = "2.3.2"
 creativeItemFilter = "3.0-SNAPSHOT"
 customItemsApi = "1.0-SNAPSHOT"
