@@ -59,7 +59,7 @@ public class ItemUtils {
 
 	public static ItemStack createFurnitureItem(Furniture furniture, int amount) {
 		// Creates item
-		ItemStack item = new ItemStack(Material.OAK_PLANKS, amount);
+		ItemStack item = ItemStack.of(Material.OAK_PLANKS, amount);
 
 		item.editPersistentDataContainer(pdc ->
 												 pdc.set(plugin.furnitureKey, plugin.furnitureTagType, furniture));

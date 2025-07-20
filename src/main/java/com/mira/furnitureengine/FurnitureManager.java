@@ -163,7 +163,7 @@ public class FurnitureManager {
 			return false;
 		}
 
-		ItemStack furnitureItem = new ItemStack(Material.OAK_PLANKS, 1);
+		ItemStack furnitureItem = ItemStack.of(Material.OAK_PLANKS);
 		furnitureItem.editPersistentDataContainer(
 				pdc -> pdc.set(plugin.furnitureKey, plugin.furnitureTagType, furniture));
 		furnitureItem.setData(DataComponentTypes.ITEM_MODEL, furniture.getItemModel());
