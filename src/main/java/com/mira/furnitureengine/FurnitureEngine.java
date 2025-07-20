@@ -26,7 +26,6 @@ import uk.co.notnull.messageshelper.MessagesHelper;
 
 import java.io.File;
 
-@SuppressWarnings("UnstableApiUsage")
 public final class FurnitureEngine extends JavaPlugin implements Listener {
 	public final NamespacedKey furnitureKey;
 	public final FurnitureTag furnitureTagType;

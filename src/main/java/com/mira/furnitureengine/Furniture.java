@@ -11,8 +11,12 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemRarity;
 
 import javax.annotation.Nullable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 @SuppressWarnings({"unused", "UnstableApiUsage"})
 public class Furniture {

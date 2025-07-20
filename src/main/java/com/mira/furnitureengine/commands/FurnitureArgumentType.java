@@ -17,7 +17,6 @@ import java.util.concurrent.CompletableFuture;
 
 import static com.mojang.brigadier.arguments.StringArgumentType.word;
 
-@SuppressWarnings("UnstableApiUsage")
 public class FurnitureArgumentType implements CustomArgumentType.Converted<Furniture, String> {
 	private final FurnitureManager furnitureManager;
 
