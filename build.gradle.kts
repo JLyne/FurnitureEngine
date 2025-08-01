@@ -59,6 +59,9 @@ paper {
     load = BukkitPluginDescription.PluginLoadOrder.STARTUP
 
     permissions {
+        register("furnitureengine.command") {
+            default = BukkitPluginDescription.Permission.Default.TRUE
+        }
         register("furnitureengine.give") {
             default = BukkitPluginDescription.Permission.Default.OP
         }

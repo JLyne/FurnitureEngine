@@ -71,6 +71,7 @@ public final class CoreCommand {
 							  .executes(this::onRemove)).build();
 
 		LiteralCommandNode<CommandSourceStack> topCommand = literal("furnitureengine")
+				.requires(source -> source.getSender().hasPermission("furnitureengine.command"))
 				.then(reloadCommand)
 				.then(giveCommand)
 				.then(getCommand)
