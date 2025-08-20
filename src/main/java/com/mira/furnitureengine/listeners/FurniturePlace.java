@@ -3,7 +3,6 @@ package com.mira.furnitureengine.listeners;
 import com.mira.furnitureengine.Furniture;
 import com.mira.furnitureengine.FurnitureManager;
 import com.mira.furnitureengine.utils.Utils;
-import org.bukkit.Material;
 import org.bukkit.Rotation;
 
 import org.bukkit.block.Block;
@@ -30,11 +29,7 @@ public final class FurniturePlace implements Listener {
 	public void onBlockPlace(BlockPlaceEvent event) {
 		Player player = event.getPlayer();
 		Block blockPlaced = event.getBlockPlaced();
-		ItemStack item = player.getInventory().getItemInMainHand();
-
-		if (item.getType() == Material.AIR) {
-			item = player.getInventory().getItemInOffHand();
-		}
+		ItemStack item = event.getItemInHand();
 
 		if (!furnitureManager.isFurnitureItem(item)) {
 			return;
