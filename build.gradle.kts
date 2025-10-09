@@ -11,7 +11,7 @@ version = "1.1-SNAPSHOT"
 
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(21)
+        languageVersion = JavaLanguageVersion.of(25)
     }
 }
 
@@ -116,5 +116,9 @@ tasks {
     compileJava {
         options.compilerArgs.addAll(listOf("-Xlint:all", "-Xlint:-processing"))
         options.encoding = "UTF-8"
+    }
+
+    generatePaperPluginDescription {
+        useDefaultCentralProxy()
     }
 }
