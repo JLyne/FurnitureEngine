@@ -18,7 +18,7 @@ import java.util.stream.Stream;
 
 @SuppressWarnings({"UnstableApiUsage", "unused"})
 public class FurnitureEngineLoader implements PluginLoader {
-	@Override
+    @Override
     public void classloader(@NotNull PluginClasspathBuilder classpathBuilder) {
         MavenLibraryResolver resolver = new MavenLibraryResolver();
         PluginLibraries pluginLibraries = load();

@@ -22,6 +22,8 @@ import org.bukkit.event.server.PluginDisableEvent;
 import org.bukkit.event.server.PluginEnableEvent;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.NotNull;
+
 import uk.co.notnull.messageshelper.MessagesHelper;
 
 import java.io.File;
@@ -57,7 +59,7 @@ public final class FurnitureEngine extends JavaPlugin implements Listener {
 		furnitureManager.loadFurniture();
 		recipeManager.registerRecipes();
 
-		LifecycleEventManager<Plugin> manager = getLifecycleManager();
+		LifecycleEventManager<@NotNull Plugin> manager = getLifecycleManager();
         manager.registerEventHandler(LifecycleEvents.COMMANDS, event -> new CoreCommand(event.registrar()));
 
 		getServer().getPluginManager().registerEvents(this, this);
