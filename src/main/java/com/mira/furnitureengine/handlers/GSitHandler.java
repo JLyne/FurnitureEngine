@@ -1,6 +1,6 @@
 package com.mira.furnitureengine.handlers;
 
-import dev.geco.gsit.object.GStopReason;
+import dev.geco.gsit.model.StopReason;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import dev.geco.gsit.api.GSitAPI;
@@ -17,6 +17,6 @@ public class GSitHandler {
 	}
 
 	public void removeSeats(Block block) {
-		GSitAPI.getSeatsByBlock(block).forEach(seat -> GSitAPI.removeSeat(seat, GStopReason.BLOCK_BREAK, true));
+		GSitAPI.getSeatsByBlock(block).forEach(seat -> GSitAPI.removeSeat(seat, StopReason.BLOCK_BREAK, true));
 	}
 }
