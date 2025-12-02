@@ -27,6 +27,8 @@ import org.jetbrains.annotations.NotNull;
 import uk.co.notnull.messageshelper.MessagesHelper;
 
 import java.io.File;
+import java.io.IOException;
+import java.util.logging.Level;
 
 public final class FurnitureEngine extends JavaPlugin implements Listener {
 	public final NamespacedKey furnitureKey;
@@ -154,7 +156,11 @@ public final class FurnitureEngine extends JavaPlugin implements Listener {
 
 	public void loadConfig() {
 		saveResource("messages.yml", false);
-		messagesHelper.loadMessages(new File(getDataFolder(), "messages.yml"));
+		try {
+			messagesHelper.loadMessages(new File(getDataFolder(), "messages.yml"));
+		} catch (IOException e) {
+			getLogger().log(Level.SEVERE, "Failed to load messages", e);
+		}
 		getConfig().options().copyDefaults(true);
 		saveConfig();
 	}
