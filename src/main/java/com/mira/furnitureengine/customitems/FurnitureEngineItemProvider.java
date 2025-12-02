@@ -5,6 +5,7 @@ import com.mira.furnitureengine.FurnitureEngine;
 import com.mira.furnitureengine.utils.ItemUtils;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
@@ -34,7 +35,7 @@ public final class FurnitureEngineItemProvider implements CustomItemProvider {
 	}
 
 	@Override
-	public @NotNull JavaPlugin getPlugin() {
+	public @NotNull Plugin getPlugin() {
 		return plugin;
 	}
 
