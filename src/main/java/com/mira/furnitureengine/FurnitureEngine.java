@@ -161,8 +161,7 @@ public final class FurnitureEngine extends JavaPlugin implements Listener {
 		} catch (IOException e) {
 			getLogger().log(Level.SEVERE, "Failed to load messages", e);
 		}
-		getConfig().options().copyDefaults(true);
-		saveConfig();
+		saveDefaultConfig();
 	}
 
 	public FurnitureManager getFurnitureManager() {

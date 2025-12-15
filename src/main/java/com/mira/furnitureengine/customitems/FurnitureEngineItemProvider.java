@@ -6,7 +6,6 @@ import com.mira.furnitureengine.utils.ItemUtils;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
 import uk.co.notnull.CustomItems.api.items.CustomItem;
