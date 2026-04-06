@@ -1,7 +1,6 @@
 package com.mira.furnitureengine.listeners;
 
 import com.destroystokyo.paper.event.entity.EntityRemoveFromWorldEvent;
-import com.mira.furnitureengine.Furniture;
 import com.mira.furnitureengine.FurnitureManager;
 import com.mira.furnitureengine.utils.Utils;
 import org.bukkit.Material;
@@ -15,8 +14,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityTeleportEvent;
+import org.bukkit.event.hanging.HangingBreakByEntityEvent;
 import org.bukkit.event.hanging.HangingBreakEvent;
-import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 
 import com.mira.furnitureengine.FurnitureEngine;
@@ -56,42 +55,35 @@ public final class FurnitureBreak implements Listener {
 		}
 	}
 
-	@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
-	public void onEntityHit(PlayerInteractEntityEvent event) {
-		if (!(event.getRightClicked() instanceof ItemFrame frame)) {
+	@EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
+	public void onHangingBreak(HangingBreakEvent event) {
+		if (event instanceof HangingBreakByEntityEvent ||
+				!(event.getEntity() instanceof ItemFrame frame) || !furnitureManager.isPlacedFurniture(frame)) {
 			return;
 		}
 
-		Furniture furniture = furnitureManager.getPlacedFurnitureType(frame);
-
-		if (furniture == null || !furniture.isProp()) {
-			return;
-		}
-
-		event.setCancelled(true);
-		Player player = event.getPlayer();
-
-		if (!player.isSneaking()) {
-			return;
-		}
-
-		Block block = event.getRightClicked().getLocation().getBlock().getRelative(BlockFace.DOWN);
-
-		if(!Utils.checkBreakPermissions(block, player)) {
-			event.setCancelled(true);
-			return;
-		}
-
-		furnitureManager.breakFurniture(block.getLocation().subtract(0, 1, 0), player);
+		Block block = event.getEntity().getLocation().getBlock().getRelative(BlockFace.DOWN);
+		furnitureManager.breakFurniture(block.getLocation().subtract(0, 1, 0), null);
 	}
 
-	@EventHandler(ignoreCancelled = true)
-	public void onHangingBreak(HangingBreakEvent event) {
+	@EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
+	public void onHangingBreakByEntity(HangingBreakByEntityEvent event) {
 		if (!(event.getEntity() instanceof ItemFrame frame) || !furnitureManager.isPlacedFurniture(frame)) {
 			return;
 		}
 
-		event.setCancelled(true);
+		Block block = frame.getLocation().getBlock().getRelative(BlockFace.DOWN);
+
+		if(event.getRemover() instanceof Player player) {
+			if (!Utils.checkBreakPermissions(block, player)) {
+				event.setCancelled(true);
+				return;
+			}
+
+			furnitureManager.breakFurniture(block.getLocation().subtract(0, 1, 0), player);
+		} else {
+			furnitureManager.breakFurniture(block.getLocation().subtract(0, 1, 0), null);
+		}
 	}
 
 	@EventHandler(ignoreCancelled = true)
