@@ -52,7 +52,7 @@ dependencies {
 paper {
     main = "com.mira.furnitureengine.FurnitureEngine"
     loader = "com.mira.furnitureengine.FurnitureEngineLoader"
-    apiVersion = libs.versions.paperApi.get().replace(Regex("\\-R\\d.\\d-SNAPSHOT"), "")
+    apiVersion = libs.versions.paperApi.get().replace(".build.+", "")
     authors = listOf("Jim (AnEnragedPigeon)", "Mira")
     generateLibrariesJson = true
     description = "Custom usable furniture items"
