@@ -9,11 +9,11 @@ import io.papermc.paper.datacomponent.item.ItemLore;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import com.mira.furnitureengine.FurnitureEngine;
+import org.bukkit.inventory.ItemType;
 
 
 @SuppressWarnings("UnstableApiUsage")
@@ -59,7 +59,7 @@ public class ItemUtils {
 
 	public static ItemStack createFurnitureItem(Furniture furniture, int amount) {
 		// Creates item
-		ItemStack item = ItemStack.of(Material.OAK_PLANKS, amount);
+		ItemStack item = ItemType.OAK_PLANKS.createItemStack(amount);
 
 		item.editPersistentDataContainer(pdc ->
 												 pdc.set(plugin.furnitureKey, plugin.furnitureTagType, furniture));

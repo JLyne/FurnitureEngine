@@ -4,7 +4,6 @@ import com.mira.furnitureengine.api.events.FurnitureBreakEvent;
 import com.mira.furnitureengine.api.events.FurnitureInteractEvent;
 import com.mira.furnitureengine.api.events.FurniturePlaceEvent;
 import com.mira.furnitureengine.utils.ItemUtils;
-import io.papermc.paper.datacomponent.DataComponentTypes;
 import io.papermc.paper.datacomponent.item.CustomModelData;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
@@ -163,17 +162,10 @@ public class FurnitureManager {
 			return false;
 		}
 
-		ItemStack furnitureItem = ItemStack.of(Material.OAK_PLANKS);
-		furnitureItem.editPersistentDataContainer(
-				pdc -> pdc.set(plugin.furnitureKey, plugin.furnitureTagType, furniture));
-		furnitureItem.setData(DataComponentTypes.ITEM_MODEL, furniture.getItemModel());
-		furnitureItem.setData(DataComponentTypes.CUSTOM_MODEL_DATA, furniture.getCustomModelData());
-
-		frame.setInvulnerable(true);
 		frame.setFixed(true);
 		frame.setItemDropChance(0.0f);
 		frame.setVisible(false);
-		frame.setItem(furnitureItem);
+		frame.setItem(ItemUtils.createFurnitureItem(furniture, 1));
 		frame.setFacingDirection(BlockFace.UP);
 		frame.getPersistentDataContainer().set(plugin.furnitureKey, plugin.furnitureTagType, furniture);
 
