@@ -10,11 +10,8 @@ import org.bukkit.inventory.ItemType;
 import org.bukkit.inventory.RecipeChoice;
 import org.bukkit.inventory.ShapedRecipe;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.function.Predicate;
 
 public class RecipeManager {
 	private final FurnitureEngine plugin;
@@ -67,22 +64,12 @@ public class RecipeManager {
 								if(itemType == null) {
 									throw new IllegalArgumentException("Invalid recipe ingredient for " + key + ": " + itemTypeName);
 								}
-
-								RecipeChoice choice;
-
-								// Use Purpur's setPredicate when possible to exclude custom items from this and other plugins
-								// in crafting recipes
-								try {
-									choice = new RecipeChoice.ExactChoice(itemType.createItemStack());
-									Method setPredicate = choice.getClass().getMethod("setPredicate", Predicate.class);
-									Predicate<ItemStack> predicate = (ItemStack i) ->
-											itemType.equals(i.getType().asItemType()) && i.getPersistentDataContainer().isEmpty();
-									setPredicate.invoke(choice, predicate);
-								} catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-									choice = RecipeChoice.itemType(itemType);
-								}
-
-								ingredients.put(character.charAt(0), choice);
+								
+								// Exclude items with custom data which likely belong to other plugins
+								ingredients.put(character.charAt(0), RecipeChoice.predicateChoice(
+										(ItemStack i) -> itemType.equals(i.getType().asItemType()) 
+												&& i.getPersistentDataContainer().isEmpty(),
+										itemType.createItemStack()));
 							});
 				}
 
