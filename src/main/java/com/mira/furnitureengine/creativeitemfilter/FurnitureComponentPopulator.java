@@ -19,7 +19,6 @@ public class FurnitureComponentPopulator implements ItemComponentPopulator {
 		this.furnitureManager = plugin.getFurnitureManager();
 	}
 
-	@SuppressWarnings("UnstableApiUsage")
 	@Override
 	public void populateComponents(@NotNull ItemStack oldItem, @NotNull ItemStack newItem,
 								   CreativeItemFilterConfiguration creativeItemFilterConfiguration) {

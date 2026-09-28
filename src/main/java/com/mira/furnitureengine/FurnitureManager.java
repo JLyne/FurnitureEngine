@@ -29,7 +29,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@SuppressWarnings({"UnusedReturnValue", "unused", "BooleanMethodIsAlwaysInverted", "UnstableApiUsage"})
+@SuppressWarnings({"UnusedReturnValue", "unused", "BooleanMethodIsAlwaysInverted"})
 public class FurnitureManager {
 	private final FurnitureEngine plugin;
 	private final Map<String, Furniture> furniture = new HashMap<>();
