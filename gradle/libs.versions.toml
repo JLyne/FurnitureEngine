@@ -15,7 +15,7 @@ worldguard = { group = "com.sk89q.worldguard", name = "worldguard-bukkit", versi
 plotsquaredCore = { group = "com.intellectualsites.plotsquared", name = "plotsquared-core" }
 plotsquaredBukkit = { group = "com.intellectualsites.plotsquared", name = "plotsquared-bukkit" }
 intellectualsitesBom = { group = "com.intellectualsites.bom", name = "bom-newest", version.ref = "intellectualsitesBom" }
-griefPrevention = { group = "com.github.TechFortress", name = "GriefPrevention", version.ref = "griefPrevention" }
+griefPrevention = { group = "com.github.GriefPrevention", name = "GriefPrevention", version.ref = "griefPrevention" }
 gsit = { group = "com.github.Gecolay.GSit", name = "core", version.ref = "gsit" }
 creativeItemFilter = { group = "org.hurricanegames", name = "CreativeItemFilter", version.ref = "creativeItemFilter" }
 customItemsApi = { group = "uk.co.notnull", name = "CustomItemsAPI", version.ref = "customItemsApi" }
