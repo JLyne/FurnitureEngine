@@ -7,6 +7,7 @@ import org.bukkit.Registry;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ItemType;
+import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.RecipeChoice;
 import org.bukkit.inventory.ShapedRecipe;
 
@@ -16,7 +17,7 @@ import java.util.Map;
 public class RecipeManager {
 	private final FurnitureEngine plugin;
 
-	private final Map<NamespacedKey, ShapedRecipe> recipes = new HashMap<>();
+	private final Map<NamespacedKey, Recipe> recipes = new HashMap<>();
 
 	public RecipeManager(FurnitureEngine plugin) {
 		this.plugin = plugin;
@@ -78,16 +79,17 @@ public class RecipeManager {
 				recipe.setGroup(group);
 				ingredients.forEach(recipe::setIngredient);
 
-				Bukkit.addRecipe(recipe);
 				recipes.put(recipeKey, recipe);
 			} catch(IllegalArgumentException e) {
 				plugin.getLogger().warning("Failed to create recipe for item " + key + ": " + e.getMessage());
 			}
 		});
+		
+		Bukkit.addRecipes(recipes.values());
 	}
 
 	public void unregisterRecipes() {
-		recipes.forEach((key, _) -> Bukkit.removeRecipe(key));
+		Bukkit.removeRecipes(recipes.keySet());
 		recipes.clear();
 	}
 }
